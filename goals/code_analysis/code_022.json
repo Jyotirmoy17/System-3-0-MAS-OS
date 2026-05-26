@@ -1,0 +1,41 @@
+{
+  "id": "code_022",
+  "goal_type": "code_analysis",
+  "pipeline_depth_k": 5,
+  "_placeholder": false,
+  "goal_text": "(python) DFS cycle detection: build adjacency, mark visited, report back-edge, fix with recursion stack set, prove acyclic test.",
+  "inputs": {
+    "code": "// code_022 stress snippet",
+    "language": "python"
+  },
+  "ground_truth": "back-edge 2->1 in sample graph",
+  "rubric": [
+    {
+      "check_id": "c1",
+      "check_text": "Key diagnosis",
+      "check_type": "substring",
+      "check_params": {
+        "field": "answer",
+        "must_contain": [
+          "back-edge",
+          "cycle",
+          "stack"
+        ]
+      }
+    },
+    {
+      "check_id": "c2",
+      "check_text": "Multi-step reasoning",
+      "check_type": "substring",
+      "check_params": {
+        "field": "answer",
+        "must_contain": [
+          "step",
+          "1",
+          "4"
+        ]
+      }
+    }
+  ],
+  "corruption_pattern": null
+}

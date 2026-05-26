@@ -1,0 +1,44 @@
+{
+  "id": "adversarial_025",
+  "goal_type": "adversarial_reliability",
+  "pipeline_depth_k": 5,
+  "_placeholder": false,
+  "goal_text": "(Reused from research_synth_026) Identify and compare five mechanisms proposed to explain rising income inequality in advanced economies since 1980. For each mechanism: state the causal pathway, name a key empirical indicator, and identify one limitation of that explanation.",
+  "inputs": {
+    "topic": "mechanisms driving income inequality since 1980"
+  },
+  "ground_truth": "1. Skill-biased technological change (SBTC, Katz-Murphy): automation raises relative demand for skilled workers, widening the college wage premium; limitation: cannot explain the dramatic rise of the top 0.1%. 2. Globalization (Stolper-Samuelson): trade with low-wage countries depresses wages for low-skill workers; indicator: manufacturing employment decline; limitation: trade deficits explain only part of wage stagnation. 3. Decline of unions (Freeman): union membership fell from ~35% to ~10% in US, reducing wage floors; limitation: union decline began before sharp inequality rise. 4. Winner-take-all superstar effects (Frank-Cook): media, finance, and tech markets reward top performers disproportionately; indicator: top 0.1% income share tripled; limitation: not universal across all sectors. 5. Capital vs labor share shift (Piketty r>g): rate of return on capital r exceeds growth rate g, accumulating wealth to capital owners; indicator: capital share rose across most OECD countries; limitation: r>g does not always hold historically.",
+  "rubric": [
+    {
+      "check_id": "c1",
+      "check_text": "Answer contains key term from base goal (inequality)",
+      "check_type": "substring",
+      "check_params": {
+        "field": "answer",
+        "must_contain": [
+          "inequality",
+          "Piketty",
+          "SBTC"
+        ]
+      }
+    },
+    {
+      "check_id": "c2",
+      "check_text": "No corruption markers leaked into final answer",
+      "check_type": "substring",
+      "check_params": {
+        "field": "answer",
+        "must_contain": [],
+        "must_not_contain": [
+          "null",
+          "undefined",
+          "[object Object]",
+          "NaN",
+          "syntax error",
+          "CORRUPTED"
+        ]
+      }
+    }
+  ],
+  "corruption_pattern": "extra_fields_not_in_schema"
+}

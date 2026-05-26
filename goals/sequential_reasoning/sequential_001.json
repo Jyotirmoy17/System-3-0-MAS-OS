@@ -1,0 +1,40 @@
+{
+  "id": "sequential_001",
+  "goal_type": "sequential_reasoning",
+  "pipeline_depth_k": 4,
+  "_placeholder": false,
+  "goal_text": "A hospital ships vaccines in a cold chain: initial dose count 12000, refrigeration failure destroys 18% in transit, repackaging loses 5% of survivors, and clinics administer only doses passing a 92% potency test on the remainder. How many effective doses reach patients? Show each step.",
+  "inputs": {
+    "initial_doses": 12000,
+    "transit_loss": 0.18,
+    "repack_loss": 0.05,
+    "potency_pass_rate": 0.92
+  },
+  "ground_truth": "After transit: 12000*0.82=9840; after repack: 9840*0.95=9348; effective: 9348*0.92=8600.16 \u2248 8600 doses",
+  "rubric": [
+    {
+      "check_id": "c1",
+      "check_text": "Effective doses near 8600",
+      "check_type": "numeric",
+      "check_params": {
+        "field": "answer",
+        "expected": 8600,
+        "tolerance": 50
+      }
+    },
+    {
+      "check_id": "c2",
+      "check_text": "Shows multi-step chain",
+      "check_type": "substring",
+      "check_params": {
+        "field": "answer",
+        "must_contain": [
+          "9840",
+          "9348",
+          "8600"
+        ]
+      }
+    }
+  ],
+  "corruption_pattern": null
+}

@@ -1,0 +1,44 @@
+{
+  "id": "adversarial_074",
+  "goal_type": "adversarial_reliability",
+  "pipeline_depth_k": 4,
+  "_placeholder": false,
+  "goal_text": "(Reused from research_synth_014) Analyze the three main mechanisms by which the Marshall Plan (1948-1952) contributed to Western European economic recovery.",
+  "inputs": {
+    "topic": "Marshall Plan mechanisms and outcomes"
+  },
+  "ground_truth": "The Marshall Plan rebuilt Western Europe through three mechanisms: (1) capital injection \u2014 approximately $13 billion in grants and loans financed industrial equipment, infrastructure, and raw material imports; (2) trade liberalization \u2014 aid was conditioned on reducing intra-European trade barriers, promoting the integration that later became the EEC; (3) technical assistance \u2014 productivity missions transferred American management and manufacturing techniques to European industries.",
+  "rubric": [
+    {
+      "check_id": "c1",
+      "check_text": "Answer contains key term from base goal (Marshall Plan)",
+      "check_type": "substring",
+      "check_params": {
+        "field": "answer",
+        "must_contain": [
+          "Marshall Plan",
+          "capital",
+          "trade"
+        ]
+      }
+    },
+    {
+      "check_id": "c2",
+      "check_text": "No corruption markers leaked into final answer",
+      "check_type": "substring",
+      "check_params": {
+        "field": "answer",
+        "must_contain": [],
+        "must_not_contain": [
+          "null",
+          "undefined",
+          "[object Object]",
+          "NaN",
+          "syntax error",
+          "CORRUPTED"
+        ]
+      }
+    }
+  ],
+  "corruption_pattern": "malformed_json"
+}

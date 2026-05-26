@@ -1,0 +1,114 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Goal Instance",
+  "description": "Schema for one goal instance in the 150-instance CFR-stress suite (EXPERIMENTS.md §3).",
+  "type": "object",
+  "required": [
+    "id",
+    "goal_type",
+    "pipeline_depth_k",
+    "goal_text",
+    "inputs",
+    "ground_truth",
+    "rubric",
+    "corruption_pattern"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^(research_synth|finance|sequential|code|adversarial)_\\d{3}$",
+      "description": "Short unique identifier matching the filename (without .json)."
+    },
+    "goal_type": {
+      "type": "string",
+      "enum": [
+        "research_synthesis",
+        "financial_analysis",
+        "sequential_reasoning",
+        "code_analysis",
+        "adversarial_reliability"
+      ]
+    },
+    "pipeline_depth_k": {
+      "type": "integer",
+      "minimum": 3,
+      "description": "Number of dependent steps in the unified baseline (minimum 3)."
+    },
+    "goal_text": {
+      "type": "string",
+      "description": "The natural-language goal given to the agent."
+    },
+    "inputs": {
+      "type": "object",
+      "description": "Structured inputs (e.g., CSV content, code snippet) available to the agent."
+    },
+    "ground_truth": {
+      "type": "string",
+      "description": "Expected answer or key facts. Used for rubric scoring."
+    },
+    "rubric": {
+      "type": "array",
+      "description": "Array of rubric check objects (2–5 per instance). See RUBRIC.md for check_type definitions.",
+      "items": {
+        "type": "object",
+        "required": ["check_id", "check_type", "check_params"],
+        "additionalProperties": true,
+        "properties": {
+          "check_id":   { "type": "string" },
+          "check_text": { "type": "string" },
+          "check_type": {
+            "type": "string",
+            "enum": ["exact_match", "substring", "numeric", "list_subset", "semantic_judge"]
+          },
+          "check_params": { "type": "object" }
+        }
+      }
+    },
+    "_placeholder": {
+      "type": "boolean",
+      "description": "When true, this instance is a smoke-test placeholder only."
+    },
+    "corruption_pattern": {
+      "description": "Adversarial corruption injected at step 2. null for all non-adversarial types.",
+      "oneOf": [
+        { "type": "null" },
+        {
+          "type": "string",
+          "enum": [
+            "drop_required_field",
+            "type_flip",
+            "out_of_range",
+            "malformed_json",
+            "extra_fields_not_in_schema"
+          ]
+        }
+      ]
+    }
+  },
+  "if": {
+    "properties": {
+      "goal_type": { "const": "adversarial_reliability" }
+    },
+    "required": ["goal_type"]
+  },
+  "then": {
+    "properties": {
+      "corruption_pattern": {
+        "type": "string",
+        "enum": [
+          "drop_required_field",
+          "type_flip",
+          "out_of_range",
+          "malformed_json",
+          "extra_fields_not_in_schema"
+        ]
+      }
+    }
+  },
+  "else": {
+    "properties": {
+      "corruption_pattern": { "type": "null" }
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "_placeholder": true,
+  "id": "research_synth_001",
+  "goal_type": "research_synthesis",
+  "pipeline_depth_k": 4,
+  "goal_text": "Summarize the key contributions of transformer neural networks.",
+  "inputs": {
+    "topic": "transformer neural networks"
+  },
+  "ground_truth": "attention mechanism",
+  "rubric": [
+    {
+      "check_id": "c1",
+      "check_text": "Answer contains some non-empty text.",
+      "check_type": "substring",
+      "check_params": {
+        "field": "answer",
+        "must_contain": []
+      }
+    }
+  ],
+  "corruption_pattern": null
+}

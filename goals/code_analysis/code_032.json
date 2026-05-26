@@ -1,0 +1,41 @@
+{
+  "id": "code_032",
+  "goal_type": "code_analysis",
+  "pipeline_depth_k": 5,
+  "_placeholder": false,
+  "goal_text": "(python) SQLAlchemy session flush order: map flush sequence, FK violation root cause in step 2 parent id, fix flush ordering.",
+  "inputs": {
+    "code": "// code_032 stress snippet",
+    "language": "python"
+  },
+  "ground_truth": "FK violation",
+  "rubric": [
+    {
+      "check_id": "c1",
+      "check_text": "Key diagnosis",
+      "check_type": "substring",
+      "check_params": {
+        "field": "answer",
+        "must_contain": [
+          "flush",
+          "session",
+          "foreign key"
+        ]
+      }
+    },
+    {
+      "check_id": "c2",
+      "check_text": "Multi-step reasoning",
+      "check_type": "substring",
+      "check_params": {
+        "field": "answer",
+        "must_contain": [
+          "step",
+          "1",
+          "4"
+        ]
+      }
+    }
+  ],
+  "corruption_pattern": null
+}

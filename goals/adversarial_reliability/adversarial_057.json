@@ -1,0 +1,46 @@
+{
+  "id": "adversarial_057",
+  "goal_type": "adversarial_reliability",
+  "pipeline_depth_k": 5,
+  "_placeholder": false,
+  "goal_text": "(Reused from sequential_028) A company starts with 10,000 customers growing at a net annual rate of 18.75% (25% new - 5% churn, i.e., 1.25*0.95=1.1875). In year 3 a new product launch adds exactly 8,000 customers after that year's growth. Compute: (1) customers at end of year 1, (2) customers at end of year 2, (3) customers at end of year 3 after launch, (4) customers at end of year 5, (5) in what year does the count first exceed 50,000?",
+  "inputs": {
+    "initial_customers": 10000,
+    "annual_growth_factor": 1.1875,
+    "year3_launch_addition": 8000
+  },
+  "ground_truth": "Y1=10000*1.1875=11875; Y2=11875*1.1875=14102; Y3 pre-launch=14102*1.1875=16746, post-launch=16746+8000=24746; Y4=24746*1.1875=29386; Y5=29386*1.1875=34896; Y6=34896*1.1875=41440; Y7=41440*1.1875=49210; Y8=49210*1.1875=58437>50000. First exceeds 50000 in Year 8.",
+  "rubric": [
+    {
+      "check_id": "c1",
+      "check_text": "Answer contains key term from base goal (customers)",
+      "check_type": "substring",
+      "check_params": {
+        "field": "answer",
+        "must_contain": [
+          "customers",
+          "growth",
+          "Year"
+        ]
+      }
+    },
+    {
+      "check_id": "c2",
+      "check_text": "No corruption markers leaked into final answer",
+      "check_type": "substring",
+      "check_params": {
+        "field": "answer",
+        "must_contain": [],
+        "must_not_contain": [
+          "null",
+          "undefined",
+          "[object Object]",
+          "NaN",
+          "syntax error",
+          "CORRUPTED"
+        ]
+      }
+    }
+  ],
+  "corruption_pattern": "type_flip"
+}

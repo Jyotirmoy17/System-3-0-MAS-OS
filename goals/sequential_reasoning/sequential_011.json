@@ -1,0 +1,54 @@
+{
+  "id": "sequential_011",
+  "goal_type": "sequential_reasoning",
+  "pipeline_depth_k": 5,
+  "_placeholder": false,
+  "goal_text": "A fab runs 4 wafer batches: step1 defect rate 4% per batch, step2 only 91% pass rework, step3 3% scrap of survivors, step4 ship 88% of remainder, step5 report effective yield from 5000 starting units.",
+  "inputs": {
+    "start": 5000,
+    "d1": 0.04,
+    "rework": 0.91,
+    "scrap": 0.03,
+    "ship": 0.88
+  },
+  "ground_truth": "After batch chain: 5000*(0.96^4)\u22484510; rework 0.91^4; scrap; ship \u2192 ~3490 effective",
+  "rubric": [
+    {
+      "check_id": "c1",
+      "check_text": "Final numeric anchor",
+      "check_type": "numeric",
+      "check_params": {
+        "field": "answer",
+        "expected": 3490,
+        "tolerance": 174.5
+      }
+    },
+    {
+      "check_id": "c2",
+      "check_text": "Intermediate steps present",
+      "check_type": "substring",
+      "check_params": {
+        "field": "answer",
+        "must_contain": [
+          "4510",
+          "3490",
+          "yield"
+        ]
+      }
+    },
+    {
+      "check_id": "c3",
+      "check_text": "Step-1 sensitivity noted",
+      "check_type": "substring",
+      "check_params": {
+        "field": "answer",
+        "must_contain": [
+          "step 1",
+          "step1",
+          "first step"
+        ]
+      }
+    }
+  ],
+  "corruption_pattern": null
+}

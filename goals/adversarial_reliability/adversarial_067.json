@@ -1,0 +1,44 @@
+{
+  "id": "adversarial_067",
+  "goal_type": "adversarial_reliability",
+  "pipeline_depth_k": 3,
+  "_placeholder": false,
+  "goal_text": "(Reused from research_synth_007) Compare aerobic and anaerobic respiration on three dimensions: ATP yield, cellular location, and byproducts.",
+  "inputs": {
+    "topic": "aerobic vs anaerobic cellular respiration"
+  },
+  "ground_truth": "Aerobic respiration occurs in the mitochondria, yields 36-38 ATP per glucose molecule, and produces carbon dioxide and water as byproducts. Anaerobic respiration (glycolysis) occurs in the cytoplasm, yields only 2 ATP per glucose, and produces lactic acid (in animals and bacteria) or ethanol and CO2 (in yeast). Aerobic respiration is approximately 18 times more energy-efficient.",
+  "rubric": [
+    {
+      "check_id": "c1",
+      "check_text": "Answer contains key term from base goal (aerobic)",
+      "check_type": "substring",
+      "check_params": {
+        "field": "answer",
+        "must_contain": [
+          "aerobic",
+          "anaerobic",
+          "ATP"
+        ]
+      }
+    },
+    {
+      "check_id": "c2",
+      "check_text": "No corruption markers leaked into final answer",
+      "check_type": "substring",
+      "check_params": {
+        "field": "answer",
+        "must_contain": [],
+        "must_not_contain": [
+          "null",
+          "undefined",
+          "[object Object]",
+          "NaN",
+          "syntax error",
+          "CORRUPTED"
+        ]
+      }
+    }
+  ],
+  "corruption_pattern": "type_flip"
+}

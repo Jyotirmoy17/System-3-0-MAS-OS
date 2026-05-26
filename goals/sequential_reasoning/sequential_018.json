@@ -1,0 +1,56 @@
+{
+  "id": "sequential_018",
+  "goal_type": "sequential_reasoning",
+  "pipeline_depth_k": 4,
+  "_placeholder": false,
+  "goal_text": "Construction BOM rollup: 12 slabs \u00d7 $800, 45 beams \u00d7 $1200 with 8% waste, labor 22% of materials, tax 9.5%, total?",
+  "inputs": {
+    "slabs": 12,
+    "slab_cost": 800,
+    "beams": 45,
+    "beam_cost": 1200,
+    "waste": 0.08,
+    "labor": 0.22,
+    "tax": 0.095
+  },
+  "ground_truth": "Materials 9600+58320; labor; tax; total \u2248 82k",
+  "rubric": [
+    {
+      "check_id": "c1",
+      "check_text": "Final numeric anchor",
+      "check_type": "numeric",
+      "check_params": {
+        "field": "answer",
+        "expected": 82000,
+        "tolerance": 4100.0
+      }
+    },
+    {
+      "check_id": "c2",
+      "check_text": "Intermediate steps present",
+      "check_type": "substring",
+      "check_params": {
+        "field": "answer",
+        "must_contain": [
+          "58320",
+          "labor",
+          "tax"
+        ]
+      }
+    },
+    {
+      "check_id": "c3",
+      "check_text": "Step-1 sensitivity noted",
+      "check_type": "substring",
+      "check_params": {
+        "field": "answer",
+        "must_contain": [
+          "step 1",
+          "step1",
+          "first step"
+        ]
+      }
+    }
+  ],
+  "corruption_pattern": null
+}

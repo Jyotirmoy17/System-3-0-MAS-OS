@@ -1,0 +1,47 @@
+{
+  "id": "adversarial_030",
+  "goal_type": "adversarial_reliability",
+  "pipeline_depth_k": 5,
+  "_placeholder": false,
+  "goal_text": "(Reused from sequential_026) Five runners finish a race. Runner A finishes 45 seconds ahead of Runner B. Runner C finishes exactly 2 minutes after Runner A. Runner D's time is the arithmetic mean of A and C. Runner E finishes 30 seconds ahead of Runner C. Runner A's finish time is 10 minutes 20 seconds. Find each runner's finish time, rank all runners from fastest to slowest, and compute the time gap between first and last.",
+  "inputs": {
+    "runner_a_time_seconds": 620,
+    "a_ahead_of_b_seconds": 45,
+    "c_behind_a_seconds": 120,
+    "e_ahead_of_c_seconds": 30
+  },
+  "ground_truth": "A=620s(10:20); B=620+45=665s(11:05); C=620+120=740s(12:20); D=(620+740)/2=680s(11:20); E=740-30=710s(11:50). Ranking fastest to slowest: A(620), B(665), D(680), E(710), C(740). Gap = 740-620 = 120 seconds (2 minutes).",
+  "rubric": [
+    {
+      "check_id": "c1",
+      "check_text": "Answer contains key term from base goal (runner)",
+      "check_type": "substring",
+      "check_params": {
+        "field": "answer",
+        "must_contain": [
+          "runner",
+          "finish",
+          "rank"
+        ]
+      }
+    },
+    {
+      "check_id": "c2",
+      "check_text": "No corruption markers leaked into final answer",
+      "check_type": "substring",
+      "check_params": {
+        "field": "answer",
+        "must_contain": [],
+        "must_not_contain": [
+          "null",
+          "undefined",
+          "[object Object]",
+          "NaN",
+          "syntax error",
+          "CORRUPTED"
+        ]
+      }
+    }
+  ],
+  "corruption_pattern": "extra_fields_not_in_schema"
+}

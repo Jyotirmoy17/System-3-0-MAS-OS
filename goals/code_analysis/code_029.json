@@ -1,0 +1,40 @@
+{
+  "id": "code_029",
+  "goal_type": "code_analysis",
+  "pipeline_depth_k": 4,
+  "_placeholder": false,
+  "goal_text": "(go) defer stack LIFO: compute defer print order, one wrong defer arg in step 1 breaks step 4 trace.",
+  "inputs": {
+    "code": "// code_029 stress snippet",
+    "language": "go"
+  },
+  "ground_truth": "print order 3 2 1",
+  "rubric": [
+    {
+      "check_id": "c1",
+      "check_text": "Key diagnosis",
+      "check_type": "substring",
+      "check_params": {
+        "field": "answer",
+        "must_contain": [
+          "defer",
+          "LIFO"
+        ]
+      }
+    },
+    {
+      "check_id": "c2",
+      "check_text": "Multi-step reasoning",
+      "check_type": "substring",
+      "check_params": {
+        "field": "answer",
+        "must_contain": [
+          "step",
+          "1",
+          "4"
+        ]
+      }
+    }
+  ],
+  "corruption_pattern": null
+}

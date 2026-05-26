@@ -1,0 +1,28 @@
+{
+  "id": "code_019",
+  "goal_type": "code_analysis",
+  "pipeline_depth_k": 4,
+  "_placeholder": false,
+  "goal_text": "Rust borrow checker scenario (4 steps): (1) locate double mutable borrow, (2) explain panic at runtime for this snippet, (3) minimal lifetime fix, (4) safe invariant after fix.",
+  "inputs": {
+    "code": "fn main() {\n  let mut v = vec![1,2,3];\n  let a = &mut v;\n  let b = &mut v;\n  a.push(4);\n  println!(\"{:?}\", b);\n}",
+    "language": "rust"
+  },
+  "ground_truth": "Two &mut v; compile error E0499; if unsafe escaped, aliasing mutation; fix split borrows or scope; invariant: one mutable borrow alive.",
+  "rubric": [
+    {
+      "check_id": "c1",
+      "check_text": "Double mutable borrow",
+      "check_type": "substring",
+      "check_params": {
+        "field": "answer",
+        "must_contain": [
+          "mutable",
+          "borrow",
+          "E0499"
+        ]
+      }
+    }
+  ],
+  "corruption_pattern": null
+}

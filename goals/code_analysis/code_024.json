@@ -1,0 +1,41 @@
+{
+  "id": "code_024",
+  "goal_type": "code_analysis",
+  "pipeline_depth_k": 5,
+  "_placeholder": false,
+  "goal_text": "(go) Mutex copy-by-value lock bug: identify Pass-by-value sync.Mutex, show race remains, fix pointer receiver, invariant lock held.",
+  "inputs": {
+    "code": "// code_024 stress snippet",
+    "language": "go"
+  },
+  "ground_truth": "Pass-by-value Mutex",
+  "rubric": [
+    {
+      "check_id": "c1",
+      "check_text": "Key diagnosis",
+      "check_type": "substring",
+      "check_params": {
+        "field": "answer",
+        "must_contain": [
+          "Mutex",
+          "pointer",
+          "race"
+        ]
+      }
+    },
+    {
+      "check_id": "c2",
+      "check_text": "Multi-step reasoning",
+      "check_type": "substring",
+      "check_params": {
+        "field": "answer",
+        "must_contain": [
+          "step",
+          "1",
+          "4"
+        ]
+      }
+    }
+  ],
+  "corruption_pattern": null
+}

@@ -1,0 +1,41 @@
+{
+  "id": "sequential_005",
+  "goal_type": "sequential_reasoning",
+  "pipeline_depth_k": 3,
+  "_placeholder": false,
+  "goal_text": "An urn has 4 red, 3 blue, 2 green balls. Draw 3 without replacement. Compute the probability of exactly 2 red and 1 blue. Then compute the probability that the third draw is green given the first two draws were red.",
+  "inputs": {
+    "red": 4,
+    "blue": 3,
+    "green": 2,
+    "draws": 3
+  },
+  "ground_truth": "P(2R,1B) = [C(4,2)*C(3,1)]/C(9,3) = 6*3/84 = 18/84 = 3/14; P(3rd green | first 2 red) = 2/7",
+  "rubric": [
+    {
+      "check_id": "c1",
+      "check_text": "P(2 red 1 blue) = 3/14",
+      "check_type": "substring",
+      "check_params": {
+        "field": "answer",
+        "must_contain": [
+          "3/14",
+          "0.214"
+        ]
+      }
+    },
+    {
+      "check_id": "c2",
+      "check_text": "Conditional prob 2/7",
+      "check_type": "substring",
+      "check_params": {
+        "field": "answer",
+        "must_contain": [
+          "2/7",
+          "0.286"
+        ]
+      }
+    }
+  ],
+  "corruption_pattern": null
+}

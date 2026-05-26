@@ -1,0 +1,54 @@
+{
+  "id": "sequential_026",
+  "goal_type": "sequential_reasoning",
+  "pipeline_depth_k": 4,
+  "_placeholder": false,
+  "goal_text": "Pharma trial phases: 240 subjects, 35% screen fail, 12% adverse drop, 90% completion, 70% efficacy in completers, expected successes?",
+  "inputs": {
+    "n": 240,
+    "screen": 0.35,
+    "adverse": 0.12,
+    "complete": 0.9,
+    "eff": 0.7
+  },
+  "ground_truth": "156 enrolled; completers; successes \u2248 88",
+  "rubric": [
+    {
+      "check_id": "c1",
+      "check_text": "Final numeric anchor",
+      "check_type": "numeric",
+      "check_params": {
+        "field": "answer",
+        "expected": 88,
+        "tolerance": 50
+      }
+    },
+    {
+      "check_id": "c2",
+      "check_text": "Intermediate steps present",
+      "check_type": "substring",
+      "check_params": {
+        "field": "answer",
+        "must_contain": [
+          "88",
+          "screen",
+          "efficacy"
+        ]
+      }
+    },
+    {
+      "check_id": "c3",
+      "check_text": "Step-1 sensitivity noted",
+      "check_type": "substring",
+      "check_params": {
+        "field": "answer",
+        "must_contain": [
+          "step 1",
+          "step1",
+          "first step"
+        ]
+      }
+    }
+  ],
+  "corruption_pattern": null
+}

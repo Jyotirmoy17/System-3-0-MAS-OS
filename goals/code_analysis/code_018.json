@@ -1,0 +1,39 @@
+{
+  "id": "code_018",
+  "goal_type": "code_analysis",
+  "pipeline_depth_k": 5,
+  "_placeholder": false,
+  "goal_text": "Go goroutine leak (5 steps): (1) list goroutines spawned, (2) find unbuffered send blocking forever, (3) quantify stuck workers for input n=3, (4) fix with context cancel or buffer, (5) prove termination invariant.",
+  "inputs": {
+    "code": "func fan(n int) int {\n  ch := make(chan int)\n  for i := 0; i < n; i++ {\n    go func(v int) { ch <- v * 2 }(i)\n  }\n  sum := 0\n  for i := 0; i < n; i++ { sum += <-ch }\n  return sum\n}",
+    "language": "go"
+  },
+  "ground_truth": "Unbuffered ch: n sends block until n receives; if one goroutine never received ordering can deadlock with scheduling; n=3 expect sum 6 if completes; fix buffered ch size n; invariant: sends==receives before return.",
+  "rubric": [
+    {
+      "check_id": "c1",
+      "check_text": "Mentions unbuffered channel",
+      "check_type": "substring",
+      "check_params": {
+        "field": "answer",
+        "must_contain": [
+          "unbuffered",
+          "channel",
+          "block"
+        ]
+      }
+    },
+    {
+      "check_id": "c2",
+      "check_text": "Sum 6 for n=3",
+      "check_type": "substring",
+      "check_params": {
+        "field": "answer",
+        "must_contain": [
+          "6"
+        ]
+      }
+    }
+  ],
+  "corruption_pattern": null
+}

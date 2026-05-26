@@ -1,0 +1,56 @@
+{
+  "id": "code_014",
+  "goal_type": "code_analysis",
+  "pipeline_depth_k": 4,
+  "_placeholder": false,
+  "goal_text": "Find the bug in this Rust function that retrieves configuration values from a HashMap. Identify the line number, bug category, and propose the exact fix.",
+  "inputs": {
+    "code": "use std::collections::HashMap;\n\nfn get_config_value(config: &HashMap<&str, &str>, key: &str) -> &str {\n    config.get(key).unwrap()\n}\n\nfn main() {\n    let mut config = HashMap::new();\n    config.insert(\"host\", \"localhost\");\n    config.insert(\"timeout\", \"30\");\n    let port = get_config_value(&config, \"port\");\n    println!(\"port: {}\", port);\n}",
+    "language": "rust"
+  },
+  "ground_truth": "Bug at line 4: '.unwrap()' panics when the key is not present in the map, because HashMap::get returns Option<&&str> and unwrap() on None triggers a panic. When called with 'port' which is not in the config, the program crashes. Category: null dereference (unwrap on None). Fix: use '.unwrap_or(\"8080\")' or handle the Option explicitly.",
+  "rubric": [
+    {
+      "check_id": "c1",
+      "check_text": "Identifies line 4 as the bug",
+      "check_type": "substring",
+      "check_params": {
+        "field": "answer",
+        "must_contain": [
+          "line 4",
+          ".unwrap()",
+          "unwrap"
+        ]
+      }
+    },
+    {
+      "check_id": "c2",
+      "check_text": "Categorizes as null dereference / unwrap panic",
+      "check_type": "substring",
+      "check_params": {
+        "field": "answer",
+        "must_contain": [
+          "null",
+          "None",
+          "panic",
+          "unwrap"
+        ]
+      }
+    },
+    {
+      "check_id": "c3",
+      "check_text": "Proposes unwrap_or or Option handling",
+      "check_type": "substring",
+      "check_params": {
+        "field": "answer",
+        "must_contain": [
+          "unwrap_or",
+          "if let",
+          "match",
+          "Option"
+        ]
+      }
+    }
+  ],
+  "corruption_pattern": null
+}

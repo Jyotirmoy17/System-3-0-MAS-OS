@@ -1,0 +1,44 @@
+{
+  "id": "adversarial_049",
+  "goal_type": "adversarial_reliability",
+  "pipeline_depth_k": 5,
+  "_placeholder": false,
+  "goal_text": "(Reused from research_synth_019) Compare five post-hoc interpretability methods for neural networks \u2014 LIME, SHAP, Grad-CAM, Integrated Gradients, and Attention Visualization \u2014 on core mechanism, applicable model types, and one known limitation of each.",
+  "inputs": {
+    "topic": "post-hoc neural network interpretability methods"
+  },
+  "ground_truth": "LIME: fits a local linear surrogate model using perturbed samples around a prediction; model-agnostic; limitation: explanations are unstable across runs due to random perturbations. SHAP: assigns Shapley values from cooperative game theory to attribute feature contributions; model-agnostic but expensive for exact computation; limitation: can be misleading when features are correlated. Grad-CAM: uses gradient of class score with respect to CNN feature maps to produce saliency maps; CNN-only; limitation: spatial resolution limited to feature map size. Integrated Gradients: integrates gradients along a path from a baseline input to the actual input; differentiable models only; limitation: choice of baseline significantly affects attribution. Attention Visualization: directly visualizes attention weight matrices in transformer models; attention-based models only; limitation: attention weights do not reliably correspond to feature importance.",
+  "rubric": [
+    {
+      "check_id": "c1",
+      "check_text": "Answer contains key term from base goal (LIME)",
+      "check_type": "substring",
+      "check_params": {
+        "field": "answer",
+        "must_contain": [
+          "LIME",
+          "SHAP",
+          "interpretability"
+        ]
+      }
+    },
+    {
+      "check_id": "c2",
+      "check_text": "No corruption markers leaked into final answer",
+      "check_type": "substring",
+      "check_params": {
+        "field": "answer",
+        "must_contain": [],
+        "must_not_contain": [
+          "null",
+          "undefined",
+          "[object Object]",
+          "NaN",
+          "syntax error",
+          "CORRUPTED"
+        ]
+      }
+    }
+  ],
+  "corruption_pattern": "malformed_json"
+}

@@ -1,0 +1,54 @@
+{
+  "id": "sequential_019",
+  "goal_type": "sequential_reasoning",
+  "pipeline_depth_k": 5,
+  "_placeholder": false,
+  "goal_text": "Orbital decay: alt 400km, drag -1.2km/day step1, fuel 2% per burn, burn every 3 days \u00d74, final alt?",
+  "inputs": {
+    "alt": 400,
+    "drag": 1.2,
+    "fuel": 0.02,
+    "burns": 4,
+    "interval": 3
+  },
+  "ground_truth": "Subtract drag spans; fuel boosts; alt \u2248 386km",
+  "rubric": [
+    {
+      "check_id": "c1",
+      "check_text": "Final numeric anchor",
+      "check_type": "numeric",
+      "check_params": {
+        "field": "answer",
+        "expected": 386,
+        "tolerance": 50
+      }
+    },
+    {
+      "check_id": "c2",
+      "check_text": "Intermediate steps present",
+      "check_type": "substring",
+      "check_params": {
+        "field": "answer",
+        "must_contain": [
+          "386",
+          "drag",
+          "fuel"
+        ]
+      }
+    },
+    {
+      "check_id": "c3",
+      "check_text": "Step-1 sensitivity noted",
+      "check_type": "substring",
+      "check_params": {
+        "field": "answer",
+        "must_contain": [
+          "step 1",
+          "step1",
+          "first step"
+        ]
+      }
+    }
+  ],
+  "corruption_pattern": null
+}

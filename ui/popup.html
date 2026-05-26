@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<style>
+/* ── Reset ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:      rgba(15, 15, 15, 0.97);
+  --border:  rgba(255, 255, 255, 0.07);
+  --accent:  #6366f1;
+  --text:    #e2e2e2;
+  --muted:   #505050;
+  --green:   #22c55e;
+  --red:     #ef4444;
+  --radius:  14px;
+  --font:    -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+html, body {
+  width: 620px;
+  height: 340px;
+  overflow: hidden;
+  background: transparent;
+  font-family: var(--font);
+}
+
+.shell {
+  width: 100%;
+  height: 100%;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  box-shadow: 0 32px 80px rgba(0, 0, 0, 0.85);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* ── Input row ── */
+.input-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 18px 20px;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.logo {
+  width: 28px;
+  height: 28px;
+  border-radius: 7px;
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 700;
+  color: #fff;
+  flex-shrink: 0;
+  user-select: none;
+}
+
+#inp {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--text);
+  font-size: 17px;
+  font-family: var(--font);
+  caret-color: var(--accent);
+  min-width: 0;
+}
+#inp::placeholder { color: var(--muted); }
+
+.spinner {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 2px solid var(--border);
+  border-top-color: var(--accent);
+  animation: spin 0.7s linear infinite;
+  display: none;
+  flex-shrink: 0;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── Body ── */
+.body { flex: 1; overflow-y: auto; }
+.body::-webkit-scrollbar { display: none; }
+
+/* Result box */
+.result {
+  display: none;
+  padding: 12px 20px 10px;
+  border-bottom: 1px solid var(--border);
+}
+.result.visible { display: block; }
+.result-label {
+  font-size: 10px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 5px;
+}
+.result-text {
+  color: var(--text);
+  font-size: 13px;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  max-height: 100px;
+  overflow-y: auto;
+}
+
+/* History */
+.hist-label {
+  font-size: 10px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 10px 20px 4px;
+}
+.hist-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 20px;
+  cursor: pointer;
+  transition: background 0.1s;
+}
+.hist-item:hover { background: rgba(255, 255, 255, 0.04); }
+.hist-icon { font-size: 12px; opacity: 0.5; flex-shrink: 0; }
+.hist-goal {
+  flex: 1;
+  font-size: 13px;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+.hist-ts { font-size: 11px; color: var(--muted); flex-shrink: 0; }
+
+/* ── Footer ── */
+.footer {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 7px 20px;
+  border-top: 1px solid var(--border);
+  flex-shrink: 0;
+}
+.hint { font-size: 11px; color: var(--muted); }
+kbd {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 1px 5px;
+  font-size: 10px;
+  font-family: monospace;
+}
+.status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--red);
+  box-shadow: 0 0 5px var(--red);
+  margin-left: auto;
+  flex-shrink: 0;
+  transition: background 0.3s, box-shadow 0.3s;
+}
+.status-dot.on {
+  background: var(--green);
+  box-shadow: 0 0 5px var(--green);
+}
+</style>
+</head>
+<body>
+<div class="shell">
+
+  <!-- Input row -->
+  <div class="input-row">
+    <div class="logo">⬡</div>
+    <input id="inp" placeholder="What do you want to do?" autofocus
+           autocomplete="off" spellcheck="false">
+    <div class="spinner" id="spinner"></div>
+  </div>
+
+  <!-- Body -->
+  <div class="body">
+
+    <!-- Result (shown after a goal completes) -->
+    <div class="result" id="result-box">
+      <div class="result-label">Last result</div>
+      <div class="result-text" id="result-text"></div>
+    </div>
+
+    <!-- History -->
+    <div id="hist-section">
+      <div class="hist-label">Recent</div>
+      <div id="hist-list"></div>
+    </div>
+
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <span class="hint"><kbd>↵</kbd> Run</span>
+    <span class="hint"><kbd>Esc</kbd> Close</span>
+    <div class="status-dot" id="sdot"></div>
+  </div>
+
+</div>
+<script>
+"use strict";
+
+const inp     = document.getElementById("inp");
+const spinner = document.getElementById("spinner");
+const resultB = document.getElementById("result-box");
+const resultT = document.getElementById("result-text");
+const histL   = document.getElementById("hist-list");
+const sdot    = document.getElementById("sdot");
+
+/* ── History ──────────────────────────────────────────────────────── */
+async function loadHistory() {
+  try {
+    const h = await window.pywebview.api.get_history();
+    histL.innerHTML = "";
+    if (!Array.isArray(h) || !h.length) return;
+    h.forEach(entry => {
+      const d = document.createElement("div");
+      d.className = "hist-item";
+      d.innerHTML =
+        `<span class="hist-icon">${entry.ok ? "✓" : "✗"}</span>` +
+        `<span class="hist-goal">${esc(entry.goal)}</span>` +
+        `<span class="hist-ts">${ago(entry.ts)}</span>`;
+      d.onclick = () => { inp.value = entry.goal; inp.focus(); };
+      histL.appendChild(d);
+    });
+  } catch (_) {}
+}
+
+/* ── Submit ───────────────────────────────────────────────────────── */
+function submit() {
+  const goal = inp.value.trim();
+  if (!goal) return;
+  spinner.style.display = "block";
+  resultB.classList.remove("visible");
+  inp.value = "";
+  window.pywebview.api.submit_goal(goal);
+}
+
+/* ── pywebview ready ──────────────────────────────────────────────── */
+window.addEventListener("pywebviewready", () => {
+  sdot.classList.add("on");
+  loadHistory();
+});
+
+/* ── Keyboard ─────────────────────────────────────────────────────── */
+inp.addEventListener("keydown", e => {
+  if (e.key === "Enter")  { e.preventDefault(); submit(); }
+  if (e.key === "Escape") { window.pywebview.api.close(); }
+});
+
+/* ── Helpers ──────────────────────────────────────────────────────── */
+function esc(s) {
+  return String(s)
+    .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
+function ago(ts) {
+  const d = Date.now() / 1000 - ts;
+  if (d < 60)    return "just now";
+  if (d < 3600)  return `${Math.floor(d / 60)}m ago`;
+  if (d < 86400) return `${Math.floor(d / 3600)}h ago`;
+  return `${Math.floor(d / 86400)}d ago`;
+}
+</script>
+</body>
+</html>

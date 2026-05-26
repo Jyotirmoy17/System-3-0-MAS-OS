@@ -1,0 +1,55 @@
+{
+  "id": "sequential_014",
+  "goal_type": "sequential_reasoning",
+  "pipeline_depth_k": 4,
+  "_placeholder": false,
+  "goal_text": "Chemical dilution cascade: 200L stock 80%, step1 add 40L water, step2 remove 15%, step3 add 25L 50% solution, step4 final concentration?",
+  "inputs": {
+    "v0": 200,
+    "c0": 0.8,
+    "add1": 40,
+    "remove": 0.15,
+    "add2": 25,
+    "c2": 0.5
+  },
+  "ground_truth": "Mass balance required; final conc \u2248 0.62",
+  "rubric": [
+    {
+      "check_id": "c1",
+      "check_text": "Final numeric anchor",
+      "check_type": "numeric",
+      "check_params": {
+        "field": "answer",
+        "expected": 0.62,
+        "tolerance": 50
+      }
+    },
+    {
+      "check_id": "c2",
+      "check_text": "Intermediate steps present",
+      "check_type": "substring",
+      "check_params": {
+        "field": "answer",
+        "must_contain": [
+          "mass",
+          "0.62",
+          "dilution"
+        ]
+      }
+    },
+    {
+      "check_id": "c3",
+      "check_text": "Step-1 sensitivity noted",
+      "check_type": "substring",
+      "check_params": {
+        "field": "answer",
+        "must_contain": [
+          "step 1",
+          "step1",
+          "first step"
+        ]
+      }
+    }
+  ],
+  "corruption_pattern": null
+}

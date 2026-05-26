@@ -1,0 +1,41 @@
+{
+  "id": "code_002",
+  "goal_type": "code_analysis",
+  "pipeline_depth_k": 4,
+  "_placeholder": false,
+  "goal_text": "Find the data race in this JavaScript counter module. Identify the shared mutable state, explain the interleaving that loses increments, propose a fix using Atomics or a mutex pattern, and note one test that would flake without the fix.",
+  "inputs": {
+    "code": "let count = 0;\nexport async function incrementMany(n) {\n  await Promise.all(\n    Array.from({length: n}, async () => { count += 1; })\n  );\n  return count;\n}",
+    "language": "javascript"
+  },
+  "ground_truth": "Shared mutable count; concurrent += not atomic; lost updates; fix with Atomics or serialize increments; flaky test: incrementMany(1000) !== 1000",
+  "rubric": [
+    {
+      "check_id": "c1",
+      "check_text": "Identifies race on count",
+      "check_type": "substring",
+      "check_params": {
+        "field": "answer",
+        "must_contain": [
+          "race",
+          "count",
+          "atomic"
+        ]
+      }
+    },
+    {
+      "check_id": "c2",
+      "check_text": "Proposes Atomics or mutex",
+      "check_type": "substring",
+      "check_params": {
+        "field": "answer",
+        "must_contain": [
+          "Atomics",
+          "mutex",
+          "lock"
+        ]
+      }
+    }
+  ],
+  "corruption_pattern": null
+}

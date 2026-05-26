@@ -1,0 +1,44 @@
+{
+  "id": "adversarial_011",
+  "goal_type": "adversarial_reliability",
+  "pipeline_depth_k": 3,
+  "_placeholder": false,
+  "goal_text": "(Reused from research_synth_009) What were the three main structural causes of World War I? Name the alliance blocs involved and explain the role of the Balkan crisis.",
+  "inputs": {
+    "topic": "causes of World War I"
+  },
+  "ground_truth": "The three structural causes are: (1) the alliance system \u2014 the Triple Alliance (Germany, Austria-Hungary, Italy) and the Triple Entente (France, Russia, Britain) locked nations into automatic war obligations; (2) militarism \u2014 the Anglo-German naval arms race and Schlieffen Plan reflected offensive military planning; (3) nationalism \u2014 pan-Slavic movements in the Balkans, especially Serbian nationalism, created pressure on Austria-Hungary and Russia.",
+  "rubric": [
+    {
+      "check_id": "c1",
+      "check_text": "Answer contains key term from base goal (Triple Alliance)",
+      "check_type": "substring",
+      "check_params": {
+        "field": "answer",
+        "must_contain": [
+          "Triple Alliance",
+          "Triple Entente",
+          "WWI"
+        ]
+      }
+    },
+    {
+      "check_id": "c2",
+      "check_text": "No corruption markers leaked into final answer",
+      "check_type": "substring",
+      "check_params": {
+        "field": "answer",
+        "must_contain": [],
+        "must_not_contain": [
+          "null",
+          "undefined",
+          "[object Object]",
+          "NaN",
+          "syntax error",
+          "CORRUPTED"
+        ]
+      }
+    }
+  ],
+  "corruption_pattern": "drop_required_field"
+}

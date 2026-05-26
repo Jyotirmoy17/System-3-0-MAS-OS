@@ -1,0 +1,40 @@
+{
+  "id": "sequential_003",
+  "goal_type": "sequential_reasoning",
+  "pipeline_depth_k": 3,
+  "_placeholder": false,
+  "goal_text": "A tank drains through two pipes. Pipe A removes 12% of the current volume per hour; pipe B removes 8% of the volume remaining after A each hour. Starting volume 5000 L. After 3 hours, how much remains? Compute hour-by-hour.",
+  "inputs": {
+    "v0": 5000,
+    "rate_a": 0.12,
+    "rate_b": 0.08,
+    "hours": 3
+  },
+  "ground_truth": "H1: 5000*0.88=4400 then 4400*0.92=4048; H2: 4048*0.88=3562.24*0.92=3277.26; H3: 3277.26*0.88=2883.99*0.92=2653.27 L",
+  "rubric": [
+    {
+      "check_id": "c1",
+      "check_text": "Final volume near 2653 L",
+      "check_type": "numeric",
+      "check_params": {
+        "field": "answer",
+        "expected": 2653,
+        "tolerance": 30
+      }
+    },
+    {
+      "check_id": "c2",
+      "check_text": "Shows hourly steps",
+      "check_type": "substring",
+      "check_params": {
+        "field": "answer",
+        "must_contain": [
+          "4048",
+          "3277",
+          "2653"
+        ]
+      }
+    }
+  ],
+  "corruption_pattern": null
+}

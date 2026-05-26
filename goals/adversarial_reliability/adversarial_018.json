@@ -1,0 +1,56 @@
+{
+  "id": "adversarial_018",
+  "goal_type": "adversarial_reliability",
+  "pipeline_depth_k": 4,
+  "_placeholder": false,
+  "goal_text": "(Reused from sequential_017) A factory must schedule jobs A, B, C, D, E (each takes 1 hour, no parallel execution). Constraints: A must complete before both B and C; B must complete before D; C must complete before E. How many valid orderings exist? List all of them.",
+  "inputs": {
+    "jobs": [
+      "A",
+      "B",
+      "C",
+      "D",
+      "E"
+    ],
+    "constraints": [
+      "A before B",
+      "A before C",
+      "B before D",
+      "C before E"
+    ]
+  },
+  "ground_truth": "A must be first. Remaining: B,C,D,E in positions 2-5 with B<D and C<E. Count of valid 4-permutations with both B<D and C<E: 4!/4 = 6. All 6 orderings: (1)A,B,C,D,E; (2)A,B,C,E,D; (3)A,B,D,C,E; (4)A,C,B,D,E; (5)A,C,B,E,D; (6)A,C,E,B,D.",
+  "rubric": [
+    {
+      "check_id": "c1",
+      "check_text": "Answer contains key term from base goal (job)",
+      "check_type": "substring",
+      "check_params": {
+        "field": "answer",
+        "must_contain": [
+          "job",
+          "ordering",
+          "schedule"
+        ]
+      }
+    },
+    {
+      "check_id": "c2",
+      "check_text": "No corruption markers leaked into final answer",
+      "check_type": "substring",
+      "check_params": {
+        "field": "answer",
+        "must_contain": [],
+        "must_not_contain": [
+          "null",
+          "undefined",
+          "[object Object]",
+          "NaN",
+          "syntax error",
+          "CORRUPTED"
+        ]
+      }
+    }
+  ],
+  "corruption_pattern": "out_of_range"
+}

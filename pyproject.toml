@@ -1,0 +1,73 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mas-os"
+version = "0.1.0"
+requires-python = ">=3.11"
+dependencies = [
+    "langgraph>=0.6",
+    "langchain-core>=0.3",
+    "jsonschema>=4.10",
+    "numpy>=1.26",
+    "scipy>=1.11",
+    "matplotlib>=3.6",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=9",
+    "pytest-cov>=7",
+    "ruff>=0.15",
+    "mypy>=1.20",
+    "types-jsonschema",
+]
+
+# ---------------------------------------------------------------------------
+# pytest
+# ---------------------------------------------------------------------------
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts   = "-v --strict-markers"
+markers   = [
+    "integration: requires Ollama running locally (deselect with -m 'not integration')",
+]
+
+# ---------------------------------------------------------------------------
+# ruff
+# ---------------------------------------------------------------------------
+
+[tool.ruff]
+line-length    = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP"]
+ignore = [
+    "E501",   # line too long — caught by formatter, not linter
+    "UP007",  # Optional[X] → X | None — keep 3.11 compat syntax for clarity
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*"  = ["F401"]   # unused imports are fine in test files
+
+# ---------------------------------------------------------------------------
+# mypy
+# Only enforce on mas/eval/ for now; existing kernel/agent code has gaps.
+# ---------------------------------------------------------------------------
+
+[tool.mypy]
+python_version      = "3.11"
+warn_unused_configs = true
+disallow_untyped_defs = true
+ignore_missing_imports  = true
+
+[[tool.mypy.overrides]]
+module = ["mas.kernel.*", "mas.agents.*", "mas.tools.*", "mas.core.*", "poc.*"]
+disallow_untyped_defs = false
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["mas", "mas.*"]

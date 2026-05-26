@@ -1,0 +1,47 @@
+{
+  "id": "adversarial_015",
+  "goal_type": "adversarial_reliability",
+  "pipeline_depth_k": 4,
+  "_placeholder": false,
+  "goal_text": "(Reused from sequential_013) A chemist needs 120 liters of a 25% acid solution. She has a 40% acid solution and a 10% acid solution available. How many liters of each should she mix?",
+  "inputs": {
+    "target_volume_L": 120,
+    "target_concentration": 0.25,
+    "solution_a_conc": 0.4,
+    "solution_b_conc": 0.1
+  },
+  "ground_truth": "Let x = liters of 40% solution. Equation: 0.40x + 0.10(120-x) = 0.25*120. 0.40x + 12 - 0.10x = 30. 0.30x = 18. x = 60 liters of 40%; 120-60=60 liters of 10%.",
+  "rubric": [
+    {
+      "check_id": "c1",
+      "check_text": "Answer contains key term from base goal (chemist)",
+      "check_type": "substring",
+      "check_params": {
+        "field": "answer",
+        "must_contain": [
+          "chemist",
+          "acid solution",
+          "liters"
+        ]
+      }
+    },
+    {
+      "check_id": "c2",
+      "check_text": "No corruption markers leaked into final answer",
+      "check_type": "substring",
+      "check_params": {
+        "field": "answer",
+        "must_contain": [],
+        "must_not_contain": [
+          "null",
+          "undefined",
+          "[object Object]",
+          "NaN",
+          "syntax error",
+          "CORRUPTED"
+        ]
+      }
+    }
+  ],
+  "corruption_pattern": "extra_fields_not_in_schema"
+}

@@ -1,0 +1,44 @@
+{
+  "id": "adversarial_017",
+  "goal_type": "adversarial_reliability",
+  "pipeline_depth_k": 4,
+  "_placeholder": false,
+  "goal_text": "(Reused from research_synth_015) Compare RNN, LSTM, and Transformer architectures on their ability to handle long-range dependencies, computational parallelism, and memory requirements.",
+  "inputs": {
+    "topic": "sequence model architecture comparison"
+  },
+  "ground_truth": "RNNs process sequences serially and suffer from vanishing gradients, making long-range dependency capture difficult; training is sequential and cannot be parallelized. LSTMs mitigate vanishing gradients using gating mechanisms (input, forget, output gates) but still process serially, limiting parallelism. Transformers use self-attention to capture arbitrary-length dependencies in a single layer; computation is fully parallelizable but memory grows as O(n^2) with sequence length due to the attention matrix.",
+  "rubric": [
+    {
+      "check_id": "c1",
+      "check_text": "Answer contains key term from base goal (RNN)",
+      "check_type": "substring",
+      "check_params": {
+        "field": "answer",
+        "must_contain": [
+          "RNN",
+          "LSTM",
+          "Transformer"
+        ]
+      }
+    },
+    {
+      "check_id": "c2",
+      "check_text": "No corruption markers leaked into final answer",
+      "check_type": "substring",
+      "check_params": {
+        "field": "answer",
+        "must_contain": [],
+        "must_not_contain": [
+          "null",
+          "undefined",
+          "[object Object]",
+          "NaN",
+          "syntax error",
+          "CORRUPTED"
+        ]
+      }
+    }
+  ],
+  "corruption_pattern": "type_flip"
+}

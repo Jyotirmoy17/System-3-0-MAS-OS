@@ -1,0 +1,40 @@
+{
+  "id": "code_005",
+  "goal_type": "code_analysis",
+  "pipeline_depth_k": 3,
+  "_placeholder": false,
+  "goal_text": "Find the type error in this Python dataclass serializer: identify where a datetime is passed where JSON expects a string, show the failing line, and provide a fix using isoformat() in a custom default handler.",
+  "inputs": {
+    "code": "from dataclasses import dataclass\nfrom datetime import datetime\nimport json\n@dataclass\nclass Event:\n    ts: datetime\n    name: str\ndef to_json(e: Event) -> str:\n    return json.dumps({'ts': e.ts, 'name': e.name})",
+    "language": "python"
+  },
+  "ground_truth": "json.dumps cannot serialize datetime; line return json.dumps; fix default=lambda o: o.isoformat() if isinstance(o, datetime) else ...",
+  "rubric": [
+    {
+      "check_id": "c1",
+      "check_text": "datetime not JSON serializable",
+      "check_type": "substring",
+      "check_params": {
+        "field": "answer",
+        "must_contain": [
+          "datetime",
+          "serializable",
+          "json.dumps"
+        ]
+      }
+    },
+    {
+      "check_id": "c2",
+      "check_text": "isoformat or default handler fix",
+      "check_type": "substring",
+      "check_params": {
+        "field": "answer",
+        "must_contain": [
+          "isoformat",
+          "default"
+        ]
+      }
+    }
+  ],
+  "corruption_pattern": null
+}

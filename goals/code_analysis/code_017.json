@@ -1,0 +1,39 @@
+{
+  "id": "code_017",
+  "goal_type": "code_analysis",
+  "pipeline_depth_k": 4,
+  "_placeholder": false,
+  "goal_text": "JavaScript promise chain (4 steps): (1) map each .then handler, (2) find where a rejected promise is swallowed, (3) show one input that yields wrong final value, (4) patch with proper rethrow.",
+  "inputs": {
+    "code": "function pipeline(x) {\n  return Promise.resolve(x)\n    .then(v => v * 2)\n    .then(v => { if (v > 10) throw 'big'; return v; })\n    .catch(() => 0)\n    .then(v => v + 1);\n}",
+    "language": "javascript"
+  },
+  "ground_truth": "catch(()=>0) converts rejection to 0; input x=6 -> 12 throws -> catch returns 0 -> final 1 not error; fix rethrow or filter; step-1 product 12 is load-bearing.",
+  "rubric": [
+    {
+      "check_id": "c1",
+      "check_text": "Identifies swallowed rejection",
+      "check_type": "substring",
+      "check_params": {
+        "field": "answer",
+        "must_contain": [
+          "catch",
+          "swallow",
+          "0"
+        ]
+      }
+    },
+    {
+      "check_id": "c2",
+      "check_text": "Uses intermediate value 12",
+      "check_type": "substring",
+      "check_params": {
+        "field": "answer",
+        "must_contain": [
+          "12"
+        ]
+      }
+    }
+  ],
+  "corruption_pattern": null
+}

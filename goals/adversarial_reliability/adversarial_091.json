@@ -1,0 +1,43 @@
+{
+  "id": "adversarial_091",
+  "goal_type": "adversarial_reliability",
+  "pipeline_depth_k": 4,
+  "_placeholder": false,
+  "goal_text": "Shamir secret sharing reconstruction (4 steps); extra_fields step 2.",
+  "inputs": {
+    "k": 3,
+    "n": 5
+  },
+  "ground_truth": "Lagrange on any k shares.",
+  "rubric": [
+    {
+      "check_id": "c1",
+      "check_text": "Mentions Shamir",
+      "check_type": "substring",
+      "check_params": {
+        "field": "answer",
+        "must_contain": [
+          "Shamir",
+          "secret"
+        ]
+      }
+    },
+    {
+      "check_id": "c2",
+      "check_text": "No corruption leakage",
+      "check_type": "substring",
+      "check_params": {
+        "field": "answer",
+        "must_contain": [],
+        "must_not_contain": [
+          "null",
+          "undefined",
+          "[object Object]",
+          "CORRUPTED",
+          "NaN"
+        ]
+      }
+    }
+  ],
+  "corruption_pattern": "drop_required_field"
+}

@@ -1,0 +1,56 @@
+{
+  "id": "code_011",
+  "goal_type": "code_analysis",
+  "pipeline_depth_k": 3,
+  "_placeholder": false,
+  "goal_text": "Find the bug in this JavaScript function that retrieves the first admin user. Identify the line number, bug category, and propose the exact fix.",
+  "inputs": {
+    "code": "function getFirstAdmin(users) {\n    const admin = users.find(u => u.role === 'admin');\n    return admin.name;\n}\n\nconst users = [\n    { name: \"Alice\", role: \"user\" },\n    { name: \"Bob\", role: \"user\" }\n];\nconsole.log(getFirstAdmin(users));",
+    "language": "javascript"
+  },
+  "ground_truth": "Bug at line 3: 'return admin.name' when 'Array.find()' returns undefined (no admin found). Accessing .name on undefined throws TypeError: Cannot read properties of undefined. Category: null dereference. Fix: add a null check \u2014 'return admin ? admin.name : null' or 'return admin?.name'.",
+  "rubric": [
+    {
+      "check_id": "c1",
+      "check_text": "Identifies line 3 as the bug",
+      "check_type": "substring",
+      "check_params": {
+        "field": "answer",
+        "must_contain": [
+          "line 3",
+          "admin.name",
+          "return admin"
+        ]
+      }
+    },
+    {
+      "check_id": "c2",
+      "check_text": "Categorizes as null dereference",
+      "check_type": "substring",
+      "check_params": {
+        "field": "answer",
+        "must_contain": [
+          "null",
+          "undefined",
+          "null dereference",
+          "TypeError"
+        ]
+      }
+    },
+    {
+      "check_id": "c3",
+      "check_text": "Proposes null check or optional chaining",
+      "check_type": "substring",
+      "check_params": {
+        "field": "answer",
+        "must_contain": [
+          "admin?.name",
+          "admin ?",
+          "null check",
+          "if (admin)"
+        ]
+      }
+    }
+  ],
+  "corruption_pattern": null
+}

@@ -1,0 +1,55 @@
+version: "3.9"
+
+# System-3/0 Demo API — single-service setup
+#
+# Usage:
+#   docker-compose up --build    # first time (pulls models: ~5 GB, ~20 min)
+#   docker-compose up            # subsequent starts (~10 s)
+#   docker-compose down          # stop and remove container
+#
+# Environment:
+#   Copy .env.example to .env and edit before running.
+#   ANTHROPIC_API_KEY is optional (frontier replication / judge only).
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        # Set SKIP_MODEL_PULL=1 for faster dev builds; models pulled at runtime.
+        SKIP_MODEL_PULL: "${SKIP_MODEL_PULL:-0}"
+    image: mas-demo:latest
+    container_name: mas-demo-api
+    restart: unless-stopped
+    ports:
+      - "${API_PORT:-8000}:8000"
+    environment:
+      # API behaviour
+      CORS_ORIGIN:        "${CORS_ORIGIN:-*}"
+      RATE_LIMIT:         "${RATE_LIMIT:-10}"
+      API_VERSION:        "${API_VERSION:-0.1.0}"
+      # Paths (mapped to volumes below)
+      DATA_DIR:           /app/data
+      RUNS_DIR:           /tmp/mas-runs
+      OLLAMA_URL:         http://localhost:11434
+      # Optional: Anthropic API key for frontier replication / judge
+      ANTHROPIC_API_KEY:  "${ANTHROPIC_API_KEY:-}"
+      # Optional: restrict allowed demo goals
+      DEMO_GOAL_IDS:      "${DEMO_GOAL_IDS:-}"
+    volumes:
+      # Persist waitlist DB and any other data across restarts
+      - ./data:/app/data
+      # Ollama model cache — avoids re-downloading models on container restart
+      - ollama-models:/root/.ollama
+    # Health check: poll /api/health every 30 s
+    healthcheck:
+      test: ["CMD", "curl", "-sf", "http://localhost:8000/api/health"]
+      interval: 30s
+      timeout:  10s
+      retries:  3
+      start_period: 60s
+
+volumes:
+  ollama-models:
+    driver: local

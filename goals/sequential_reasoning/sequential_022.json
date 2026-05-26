@@ -1,0 +1,54 @@
+{
+  "id": "sequential_022",
+  "goal_type": "sequential_reasoning",
+  "pipeline_depth_k": 4,
+  "_placeholder": false,
+  "goal_text": "Warehouse pick: 8 aisles \u00d7 120 picks/hr, break 12min/shift, 2 shifts, 6% mis-pick rework cost 3min each, net picks?",
+  "inputs": {
+    "aisles": 8,
+    "rate": 120,
+    "break": 12,
+    "shifts": 2,
+    "mispick": 0.06
+  },
+  "ground_truth": "Gross picks minus breaks minus rework; \u2248 10800",
+  "rubric": [
+    {
+      "check_id": "c1",
+      "check_text": "Final numeric anchor",
+      "check_type": "numeric",
+      "check_params": {
+        "field": "answer",
+        "expected": 10800,
+        "tolerance": 540.0
+      }
+    },
+    {
+      "check_id": "c2",
+      "check_text": "Intermediate steps present",
+      "check_type": "substring",
+      "check_params": {
+        "field": "answer",
+        "must_contain": [
+          "10800",
+          "mispick",
+          "rework"
+        ]
+      }
+    },
+    {
+      "check_id": "c3",
+      "check_text": "Step-1 sensitivity noted",
+      "check_type": "substring",
+      "check_params": {
+        "field": "answer",
+        "must_contain": [
+          "step 1",
+          "step1",
+          "first step"
+        ]
+      }
+    }
+  ],
+  "corruption_pattern": null
+}

@@ -1,0 +1,36 @@
+{
+  "id": "sequential_006",
+  "goal_type": "sequential_reasoning",
+  "pipeline_depth_k": 4,
+  "_placeholder": false,
+  "goal_text": "Fermi estimate: How many piano tunings occur per year in Chicago? State assumptions for population, pianos per household, tuning frequency, and tuners' throughput. Compute low and high bounds and give a point estimate.",
+  "inputs": {
+    "city": "Chicago"
+  },
+  "ground_truth": "Pop ~2.7M, ~1M households, 1 piano per 50 households \u2192 20k pianos, tuned once/year \u2192 20k tunings; tuners do ~1000/year \u2192 ~20 tuners \u2014 order 10^4 tunings/year acceptable range 5k-40k",
+  "rubric": [
+    {
+      "check_id": "c1",
+      "check_text": "Order of magnitude 10^4 tunings",
+      "check_type": "substring",
+      "check_params": {
+        "field": "answer",
+        "must_contain": [
+          "10000",
+          "10,000",
+          "tuning"
+        ]
+      }
+    },
+    {
+      "check_id": "c2",
+      "check_text": "States explicit assumptions",
+      "check_type": "semantic_judge",
+      "check_params": {
+        "field": "answer",
+        "criteria": "Does the answer list at least three explicit assumptions (population, piano ownership, or tuning frequency) and combine them into a numeric estimate?"
+      }
+    }
+  ],
+  "corruption_pattern": null
+}

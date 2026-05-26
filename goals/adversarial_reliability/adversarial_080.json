@@ -1,0 +1,40 @@
+{
+  "id": "adversarial_080",
+  "goal_type": "adversarial_reliability",
+  "pipeline_depth_k": 5,
+  "_placeholder": false,
+  "goal_text": "Database 2PC coordinator failure modes (5 steps); survive step-2 malformed participant vote.",
+  "inputs": {},
+  "ground_truth": "Abort if any vote abort; blocking if coord dies.",
+  "rubric": [
+    {
+      "check_id": "c1",
+      "check_text": "Mentions 2PC",
+      "check_type": "substring",
+      "check_params": {
+        "field": "answer",
+        "must_contain": [
+          "2PC",
+          "coordinator"
+        ]
+      }
+    },
+    {
+      "check_id": "c2",
+      "check_text": "No corruption leakage",
+      "check_type": "substring",
+      "check_params": {
+        "field": "answer",
+        "must_contain": [],
+        "must_not_contain": [
+          "null",
+          "undefined",
+          "[object Object]",
+          "CORRUPTED",
+          "NaN"
+        ]
+      }
+    }
+  ],
+  "corruption_pattern": "extra_fields_not_in_schema"
+}

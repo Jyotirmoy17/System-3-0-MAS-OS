@@ -1,0 +1,41 @@
+{
+  "id": "code_021",
+  "goal_type": "code_analysis",
+  "pipeline_depth_k": 4,
+  "_placeholder": false,
+  "goal_text": "(typescript) Find optional chaining masking undefined reducer seed in fold; steps: trace seed, first product, final sum; wrong seed breaks step 4.",
+  "inputs": {
+    "code": "// code_021 stress snippet",
+    "language": "typescript"
+  },
+  "ground_truth": "seed undefined yields NaN chain",
+  "rubric": [
+    {
+      "check_id": "c1",
+      "check_text": "Key diagnosis",
+      "check_type": "substring",
+      "check_params": {
+        "field": "answer",
+        "must_contain": [
+          "NaN",
+          "seed",
+          "fold"
+        ]
+      }
+    },
+    {
+      "check_id": "c2",
+      "check_text": "Multi-step reasoning",
+      "check_type": "substring",
+      "check_params": {
+        "field": "answer",
+        "must_contain": [
+          "step",
+          "1",
+          "4"
+        ]
+      }
+    }
+  ],
+  "corruption_pattern": null
+}

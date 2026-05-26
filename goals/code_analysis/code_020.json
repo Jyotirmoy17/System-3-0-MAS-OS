@@ -1,0 +1,40 @@
+{
+  "id": "code_020",
+  "goal_type": "code_analysis",
+  "pipeline_depth_k": 5,
+  "_placeholder": false,
+  "goal_text": "Python decimal payroll (5 steps): (1) parse string wages, (2) compute biweekly gross with overtime rules, (3) apply tax bracket on annualized income, (4) net pay, (5) verify step-3 uses step-2 gross not raw hours\u2014any hour typo in step 1 must flip final net.",
+  "inputs": {
+    "hours_str": "80.0",
+    "rate_str": "45.50",
+    "ot_threshold": 80,
+    "ot_multiplier": 1.5,
+    "tax_rate": 0.22
+  },
+  "ground_truth": "hours=80 rate=45.5 gross biweekly=80*45.5=3640 no OT; annual=3640*26=94640; tax 0.22*94640=20820.8; net biweekly=3640-801.6=2838.4 approx; step1 must parse 80.0.",
+  "rubric": [
+    {
+      "check_id": "c1",
+      "check_text": "Biweekly gross near 3640",
+      "check_type": "numeric",
+      "check_params": {
+        "field": "answer",
+        "expected": 3640,
+        "tolerance": 10
+      }
+    },
+    {
+      "check_id": "c2",
+      "check_text": "Shows annualization",
+      "check_type": "substring",
+      "check_params": {
+        "field": "answer",
+        "must_contain": [
+          "94640",
+          "annual"
+        ]
+      }
+    }
+  ],
+  "corruption_pattern": null
+}

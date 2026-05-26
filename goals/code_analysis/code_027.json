@@ -1,0 +1,41 @@
+{
+  "id": "code_027",
+  "goal_type": "code_analysis",
+  "pipeline_depth_k": 4,
+  "_placeholder": false,
+  "goal_text": "(python) Recursive JSON merge: depth-4 merge drops nested keys when step-1 type wrong; fix schema guard.",
+  "inputs": {
+    "code": "// code_027 stress snippet",
+    "language": "python"
+  },
+  "ground_truth": "nested key loss",
+  "rubric": [
+    {
+      "check_id": "c1",
+      "check_text": "Key diagnosis",
+      "check_type": "substring",
+      "check_params": {
+        "field": "answer",
+        "must_contain": [
+          "merge",
+          "nested",
+          "schema"
+        ]
+      }
+    },
+    {
+      "check_id": "c2",
+      "check_text": "Multi-step reasoning",
+      "check_type": "substring",
+      "check_params": {
+        "field": "answer",
+        "must_contain": [
+          "step",
+          "1",
+          "4"
+        ]
+      }
+    }
+  ],
+  "corruption_pattern": null
+}

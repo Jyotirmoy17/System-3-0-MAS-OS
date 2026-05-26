@@ -1,0 +1,44 @@
+{
+  "id": "adversarial_038",
+  "goal_type": "adversarial_reliability",
+  "pipeline_depth_k": 3,
+  "_placeholder": false,
+  "goal_text": "(Reused from research_synth_008) Explain the three main transmission channels of monetary policy and how each links central bank rate decisions to the real economy.",
+  "inputs": {
+    "topic": "monetary policy transmission channels"
+  },
+  "ground_truth": "The three main transmission channels are: (1) the interest rate channel \u2014 central bank rate changes directly affect borrowing costs for households and firms, influencing investment and consumption; (2) the credit channel \u2014 changes in bank capital and firm balance sheet health affect the volume of bank lending; (3) the asset price/wealth channel \u2014 rate changes affect bond, equity, and real estate prices, altering household wealth and spending.",
+  "rubric": [
+    {
+      "check_id": "c1",
+      "check_text": "Answer contains key term from base goal (monetary policy)",
+      "check_type": "substring",
+      "check_params": {
+        "field": "answer",
+        "must_contain": [
+          "monetary policy",
+          "interest rate",
+          "transmission"
+        ]
+      }
+    },
+    {
+      "check_id": "c2",
+      "check_text": "No corruption markers leaked into final answer",
+      "check_type": "substring",
+      "check_params": {
+        "field": "answer",
+        "must_contain": [],
+        "must_not_contain": [
+          "null",
+          "undefined",
+          "[object Object]",
+          "NaN",
+          "syntax error",
+          "CORRUPTED"
+        ]
+      }
+    }
+  ],
+  "corruption_pattern": "out_of_range"
+}

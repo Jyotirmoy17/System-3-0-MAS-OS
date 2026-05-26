@@ -1,0 +1,54 @@
+{
+  "id": "code_016",
+  "goal_type": "code_analysis",
+  "pipeline_depth_k": 5,
+  "_placeholder": false,
+  "goal_text": "Analyze this Python LRU cache (5 dependent steps): (1) parse eviction order, (2) identify the bug in capacity accounting when size==maxsize, (3) trace a concrete key sequence that returns a stale hit, (4) propose the minimal fix, (5) state the invariant linking dict order and linked-list integrity.",
+  "inputs": {
+    "code": "class LRU:\n    def __init__(self, maxsize):\n        self.maxsize = maxsize\n        self.cache = {}\n        self.order = []\n    def get(self, k):\n        if k in self.cache:\n            self.order.remove(k)\n            self.order.append(k)\n            return self.cache[k]\n        return -1\n    def put(self, k, v):\n        if len(self.cache) >= self.maxsize:\n            evict = self.order.pop(0)\n            del self.cache[evict]\n        self.cache[k] = v\n        self.order.append(k)",
+    "language": "python"
+  },
+  "ground_truth": "Bug: put evicts when len==maxsize before insert, so at capacity one put evicts then adds leaving size maxsize but order/cache can desync; stale hit if evicted key still queried; fix evict only when len>maxsize or check before insert; invariant: len(cache)==len(order) and keys match.",
+  "rubric": [
+    {
+      "check_id": "c1",
+      "check_text": "Names capacity/off-by-one bug",
+      "check_type": "substring",
+      "check_params": {
+        "field": "answer",
+        "must_contain": [
+          "maxsize",
+          "len",
+          "evict"
+        ]
+      }
+    },
+    {
+      "check_id": "c2",
+      "check_text": "Mentions stale hit or desync",
+      "check_type": "substring",
+      "check_params": {
+        "field": "answer",
+        "must_contain": [
+          "stale",
+          "desync",
+          "order"
+        ]
+      }
+    },
+    {
+      "check_id": "c3",
+      "check_text": "States invariant",
+      "check_type": "substring",
+      "check_params": {
+        "field": "answer",
+        "must_contain": [
+          "invariant",
+          "order",
+          "cache"
+        ]
+      }
+    }
+  ],
+  "corruption_pattern": null
+}

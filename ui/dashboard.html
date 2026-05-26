@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MAS-OS — Agentic Operating System</title>
+<style>
+:root {
+  --bg:     #0a0a0a;
+  --s1:     #111111;
+  --s2:     #181818;
+  --brd:    #222222;
+  --acc:    #6366f1;
+  --acc2:   #8b5cf6;
+  --grn:    #22c55e;
+  --yel:    #eab308;
+  --red:    #ef4444;
+  --blu:    #3b82f6;
+  --txt:    #e2e2e2;
+  --mut:    #555555;
+  --font:   -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --mono:   "SF Mono", "Fira Code", monospace;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); color: var(--txt); font-family: var(--font);
+       height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
+
+/* ── Header ── */
+header {
+  height: 52px; background: var(--s1); border-bottom: 1px solid var(--brd);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 20px; flex-shrink: 0;
+}
+.logo { display: flex; align-items: center; gap: 10px; user-select: none; }
+.logo-icon {
+  width: 28px; height: 28px; border-radius: 7px;
+  background: linear-gradient(135deg, var(--acc), var(--acc2));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 700; color: #fff;
+}
+.logo-name { font-size: 15px; font-weight: 600; }
+.logo-sub  { font-size: 11px; color: var(--mut); margin-left: 4px; }
+.hdr-r { display: flex; align-items: center; gap: 14px; }
+.tok-ctr { font-size: 12px; color: var(--mut); font-family: var(--mono); }
+.conn-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--red); box-shadow: 0 0 6px var(--red);
+  transition: background 0.3s, box-shadow 0.3s;
+}
+.conn-dot.on { background: var(--grn); box-shadow: 0 0 6px var(--grn); }
+
+/* ── Main layout ── */
+.main { display: flex; flex: 1; overflow: hidden; }
+
+/* ── Chat panel ── */
+.chat { flex: 1; display: flex; flex-direction: column; border-right: 1px solid var(--brd); }
+.msgs { flex: 1; overflow-y: auto; padding: 20px;
+        display: flex; flex-direction: column; gap: 16px; }
+.msgs::-webkit-scrollbar { width: 3px; }
+.msgs::-webkit-scrollbar-thumb { background: var(--brd); border-radius: 2px; }
+
+/* Welcome screen */
+.welcome {
+  flex: 1; display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 14px; padding: 40px; text-align: center; color: var(--mut);
+}
+.welcome h2 { font-size: 20px; font-weight: 600; color: var(--txt); }
+.welcome p  { font-size: 14px; line-height: 1.6; max-width: 380px; }
+.examples { display: flex; flex-direction: column; gap: 7px; width: 100%; max-width: 440px; }
+.ex {
+  padding: 9px 14px; background: var(--s2); border: 1px solid var(--brd);
+  border-radius: 8px; font-size: 13px; color: var(--txt);
+  cursor: pointer; text-align: left; transition: border-color 0.15s;
+}
+.ex:hover { border-color: var(--acc); }
+
+/* Messages */
+.msg { display: flex; gap: 10px; max-width: 88%; }
+.msg.user { align-self: flex-end; flex-direction: row-reverse; }
+.msg.ai   { align-self: flex-start; }
+.av {
+  width: 30px; height: 30px; border-radius: 8px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 700;
+}
+.msg.user .av { background: var(--acc); color: #fff; }
+.msg.ai   .av { background: var(--s2); color: var(--acc); border: 1px solid var(--brd); }
+.mb { display: flex; flex-direction: column; gap: 3px; }
+.ml { font-size: 11px; color: var(--mut); }
+.bubble {
+  padding: 11px 15px; border-radius: 11px;
+  font-size: 14px; line-height: 1.6;
+}
+.msg.user .bubble { background: var(--acc); color: #fff; border-radius: 11px 3px 11px 11px; }
+.msg.ai   .bubble {
+  background: var(--s2); border: 1px solid var(--brd);
+  border-radius: 3px 11px 11px 11px; white-space: pre-wrap;
+}
+
+/* Thinking */
+.thinking {
+  display: flex; align-items: center; gap: 8px;
+  padding: 10px 15px; background: var(--s2);
+  border: 1px solid var(--brd); border-radius: 3px 11px 11px 11px;
+}
+.dots span {
+  display: inline-block; width: 6px; height: 6px; border-radius: 50%;
+  background: var(--acc); animation: blink 1.2s infinite; margin-right: 4px;
+}
+.dots span:nth-child(2) { animation-delay: 0.2s; }
+.dots span:nth-child(3) { animation-delay: 0.4s; }
+@keyframes blink { 0%,80%,100%{transform:scale(0.7);opacity:0.4} 40%{transform:scale(1);opacity:1} }
+
+/* Input area */
+.input-area {
+  padding: 14px 18px; border-top: 1px solid var(--brd);
+  background: var(--s1); flex-shrink: 0;
+}
+.input-wrap {
+  display: flex; gap: 8px; align-items: flex-end;
+  background: var(--s2); border: 1px solid var(--brd);
+  border-radius: 11px; padding: 8px 8px 8px 14px;
+  transition: border-color 0.2s;
+}
+.input-wrap:focus-within { border-color: var(--acc); }
+textarea {
+  flex: 1; background: none; border: none; outline: none;
+  color: var(--txt); font-size: 14px; font-family: var(--font);
+  resize: none; max-height: 110px; min-height: 20px; line-height: 1.5;
+}
+textarea::placeholder { color: var(--mut); }
+.send-btn {
+  width: 34px; height: 34px; border-radius: 8px; border: none;
+  background: var(--acc); color: #fff; cursor: pointer; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.15s;
+}
+.send-btn:hover:not(:disabled) { background: var(--acc2); }
+.send-btn:disabled { background: var(--brd); cursor: not-allowed; }
+.input-hint { font-size: 11px; color: var(--mut); margin-top: 5px; padding-left: 2px; }
+
+/* ── Right panel ── */
+.right { width: 320px; flex-shrink: 0; display: flex; flex-direction: column; background: var(--s1); }
+.ph {
+  padding: 13px 15px; border-bottom: 1px solid var(--brd);
+  font-size: 11px; font-weight: 600; color: var(--mut);
+  text-transform: uppercase; letter-spacing: 0.08em;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.ph button { background: none; border: none; color: var(--mut);
+             cursor: pointer; font-size: 11px; padding: 0; }
+.ph button:hover { color: var(--txt); }
+
+/* Metrics */
+.metrics { display: grid; grid-template-columns: 1fr 1fr; gap: 1px;
+           background: var(--brd); flex-shrink: 0; }
+.met { background: var(--s1); padding: 9px 13px; }
+.met-l { font-size: 10px; color: var(--mut); text-transform: uppercase;
+         letter-spacing: 0.06em; margin-bottom: 2px; }
+.met-v { font-size: 18px; font-weight: 600; font-family: var(--mono); }
+.c-grn { color: var(--grn); }
+.c-blu { color: var(--blu); }
+.c-yel { color: var(--yel); }
+
+/* Activity feed */
+.feed {
+  flex: 1; overflow-y: auto; padding: 10px;
+  display: flex; flex-direction: column; gap: 5px;
+}
+.feed::-webkit-scrollbar { width: 3px; }
+.feed::-webkit-scrollbar-thumb { background: var(--brd); }
+.ev {
+  padding: 7px 9px; border-radius: 7px; background: var(--s2);
+  border-left: 3px solid transparent; font-size: 11px;
+  animation: fi 0.2s ease;
+}
+@keyframes fi { from{opacity:0;transform:translateY(3px)} to{opacity:1} }
+.ev.plan     { border-color: var(--blu); }
+.ev.agent    { border-color: var(--acc); }
+.ev.tool     { border-color: var(--yel); }
+.ev.validate { border-color: var(--grn); }
+.ev.error    { border-color: var(--red); }
+.ev-t { font-weight: 600; color: var(--txt); margin-bottom: 2px; }
+.ev-d { color: var(--mut); line-height: 1.4; }
+.badge {
+  display: inline-flex; align-items: center;
+  padding: 1px 5px; border-radius: 4px;
+  font-size: 10px; font-weight: 600; margin-right: 4px;
+}
+.b-s3 { background: rgba(234,179,8,.15);  color: var(--yel); }
+.b-s1 { background: rgba(59,130,246,.15); color: var(--blu); }
+.b-s2 { background: rgba(99,102,241,.15); color: var(--acc); }
+.b-s0 { background: rgba(34,197,94,.15);  color: var(--grn); }
+.b-tl { background: rgba(234,179,8,.12);  color: var(--yel); }
+
+/* Registry strip */
+.reg { border-top: 1px solid var(--brd); padding: 10px; flex-shrink: 0; }
+.reg-title { font-size: 10px; color: var(--mut); text-transform: uppercase;
+             letter-spacing: 0.06em; margin-bottom: 7px; font-weight: 600; }
+.ag-row {
+  display: flex; align-items: center; gap: 7px; padding: 5px 7px;
+  border-radius: 6px; font-size: 11px; background: var(--s2);
+  margin-bottom: 3px; transition: background 0.15s;
+}
+.ag-row.active { background: rgba(99,102,241,.1);
+                 border: 1px solid rgba(99,102,241,.2); }
+.ag-dot { width: 6px; height: 6px; border-radius: 50%;
+          background: var(--brd); flex-shrink: 0; }
+.ag-dot.s1 { background: var(--blu); }
+.ag-dot.s2 { background: var(--acc); }
+.ag-name { flex: 1; color: var(--txt); font-weight: 500; min-width: 0;
+           white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ag-tier { color: var(--mut); flex-shrink: 0; }
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<header>
+  <div class="logo">
+    <div class="logo-icon">⬡</div>
+    <span class="logo-name">MAS-OS</span>
+    <span class="logo-sub">System-3/0</span>
+  </div>
+  <div class="hdr-r">
+    <span class="tok-ctr" id="tok-ctr">0 tokens</span>
+    <div class="conn-dot" id="conn-dot"></div>
+  </div>
+</header>
+
+<div class="main">
+  <!-- Chat -->
+  <div class="chat">
+    <div class="msgs" id="msgs">
+      <div class="welcome" id="welcome">
+        <div style="font-size:40px">⬡</div>
+        <h2>MAS-OS is ready</h2>
+        <p>Give me a goal. I plan, route to the right agents,
+           execute with real tools, and return a complete answer.</p>
+        <div class="examples">
+          <div class="ex" onclick="useEx(this)">📂 List all files in my data folder and summarise what's there</div>
+          <div class="ex" onclick="useEx(this)">🔍 Search the web for the latest developments in AI agent frameworks</div>
+          <div class="ex" onclick="useEx(this)">🧮 Calculate compound interest on $10,000 at 7% annual rate for 20 years</div>
+          <div class="ex" onclick="useEx(this)">📊 Read the sales_2024.csv file and compute total annual revenue and best month</div>
+          <div class="ex" onclick="useEx(this)">📝 Remember that my thesis deadline is August 2026 and recall it later</div>
+        </div>
+      </div>
+    </div>
+    <div class="input-area">
+      <div class="input-wrap">
+        <textarea id="inp" placeholder="Give me a goal…" rows="1"></textarea>
+        <button class="send-btn" id="send-btn" onclick="send()">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2.5">
+            <line x1="22" y1="2" x2="11" y2="13"/>
+            <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+          </svg>
+        </button>
+      </div>
+      <div class="input-hint">Enter to send · Shift+Enter for new line</div>
+    </div>
+  </div>
+
+  <!-- Right panel -->
+  <div class="right">
+    <div class="ph">
+      <span>Agent Activity</span>
+      <button onclick="clearFeed()">clear</button>
+    </div>
+
+    <!-- Metrics -->
+    <div class="metrics">
+      <div class="met">
+        <div class="met-l">Tokens Used</div>
+        <div class="met-v c-blu" id="m-tok">0</div>
+      </div>
+      <div class="met">
+        <div class="met-l">Escalations</div>
+        <div class="met-v c-yel" id="m-esc">0</div>
+      </div>
+      <div class="met">
+        <div class="met-l">Schema Vs</div>
+        <div class="met-v c-grn" id="m-vs">—</div>
+      </div>
+      <div class="met">
+        <div class="met-l">Agents Run</div>
+        <div class="met-v" id="m-ag">0</div>
+      </div>
+    </div>
+
+    <!-- Feed -->
+    <div class="feed" id="feed">
+      <div id="feed-ph" style="color:var(--mut);font-size:12px;
+           text-align:center;margin-top:20px">
+        Agent activity will appear here
+      </div>
+    </div>
+
+    <!-- Registry -->
+    <div class="reg">
+      <div class="reg-title">Registry</div>
+      <div id="ag-list">
+        <div style="color:var(--mut);font-size:11px">Loading…</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+"use strict";
+
+const sid = Math.random().toString(36).slice(2, 10);
+let ws    = null;
+let busy  = false;
+let toks  = 0;
+let escs  = 0;
+const agSet = new Set();
+
+/* ── WebSocket ──────────────────────────────────────────────────── */
+function connect() {
+  const proto = location.protocol === "https:" ? "wss:" : "ws:";
+  ws = new WebSocket(`${proto}//${location.host}/ws/${sid}`);
+
+  ws.onopen = () => {
+    document.getElementById("conn-dot").classList.add("on");
+    ws.send(JSON.stringify({ type: "ping" }));
+    loadRegistry();
+  };
+  ws.onclose   = () => {
+    document.getElementById("conn-dot").classList.remove("on");
+    setTimeout(connect, 3000);
+  };
+  ws.onmessage = e => handle(JSON.parse(e.data));
+  ws.onerror   = () => document.getElementById("conn-dot").classList.remove("on");
+}
+
+function handle(d) {
+  if (d.type === "pong")          return;
+  if (d.type === "goal_received") { showThinking(); return; }
+  if (d.event)                    { onEvent(d.event); return; }
+  if (d.message)                  { onMsg(d.message); return; }
+  if (d.type === "telemetry")     { onTelemetry(d); return; }
+  if (d.done)                     { removeThinking(); setRunning(false); return; }
+  if (d.type === "error") {
+    removeThinking(); setRunning(false);
+    addMsg("ai", "Error: " + esc(d.message));
+  }
+}
+
+function onEvent(ev) {
+  const feed = document.getElementById("feed");
+  document.getElementById("feed-ph")?.remove();
+
+  let cls = "ev", t = "", dt = "";
+
+  switch (ev.type) {
+    case "plan":
+      cls += " plan";
+      t    = `<span class="badge b-s3">S3</span>Planning`;
+      dt   = `${ev.complexity || "?"} → ${ev.selected_agent || "?"}`;
+      break;
+
+    case "agent_start": {
+      cls += " agent";
+      const isS2 = ["react","decomp","consistency","tot","verifier"]
+                     .some(x => (ev.agent_id || "").includes(x));
+      const tier  = isS2 ? "S2" : "S1";
+      t   = `<span class="badge b-${isS2 ? "s2" : "s1"}">${tier}</span>${esc(ev.agent_name || ev.agent_id)}`;
+      dt  = "Running…";
+      agSet.add(ev.agent_id);
+      document.getElementById("m-ag").textContent = agSet.size;
+      document.querySelectorAll(".ag-row").forEach(r =>
+        r.classList.toggle("active", r.dataset.id === ev.agent_id));
+      break;
+    }
+
+    case "agent_done":
+      cls += " agent";
+      t    = "✓ Done";
+      dt   = `conf: ${ev.confidence}  ·  ${ev.tokens} tok`;
+      if (ev.tool_calls) dt += `  ·  ${ev.tool_calls} tools`;
+      toks += ev.tokens || 0;
+      document.getElementById("m-tok").textContent = toks.toLocaleString();
+      document.getElementById("tok-ctr").textContent = toks.toLocaleString() + " tokens";
+      break;
+
+    case "tool_call":
+      cls += " tool";
+      t    = `<span class="badge b-tl">TOOL</span>${esc(ev.tool)}`;
+      dt   = (ev.success ? "✓ " : "✗ ") + esc((ev.preview || "").slice(0, 80));
+      break;
+
+    case "s0_validate":
+      cls += " validate";
+      t    = `<span class="badge b-s0">S0</span>Validated`;
+      dt   = `Vs: ${ev.Vs}`;
+      if (ev.predicate !== "none") {
+        dt += `  ·  ⚡ ${ev.predicate}`;
+        escs++;
+        document.getElementById("m-esc").textContent = escs;
+      }
+      document.getElementById("m-vs").textContent = ev.Vs;
+      break;
+
+    case "halt":
+      cls += " error";
+      t    = "⏹ Halted";
+      dt   = ev.reason || "";
+      break;
+
+    case "error":
+      cls += " error";
+      t    = "✗ Error";
+      dt   = esc(ev.msg || "");
+      break;
+
+    default: return;
+  }
+
+  const div = document.createElement("div");
+  div.className = cls;
+  div.innerHTML = `<div class="ev-t">${t}</div><div class="ev-d">${dt}</div>`;
+  feed.appendChild(div);
+  feed.scrollTop = feed.scrollHeight;
+}
+
+function onMsg(m) {
+  if (m.role === "agent" && m.content) {
+    removeThinking();
+    addMsg("ai", m.content, m.agent_id, m.tokens);
+  }
+}
+
+function onTelemetry(d) {
+  if (typeof d.system0?.Vs === "number")
+    document.getElementById("m-vs").textContent = d.system0.Vs.toFixed(4);
+}
+
+/* ── Chat ─────────────────────────────────────────────────────────── */
+function send() {
+  const ta   = document.getElementById("inp");
+  const goal = ta.value.trim();
+  if (!goal || busy || !ws || ws.readyState !== WebSocket.OPEN) return;
+  document.getElementById("welcome")?.remove();
+  addMsg("user", goal);
+  ta.value = "";
+  ta.style.height = "auto";
+  setRunning(true);
+  ws.send(JSON.stringify({ type: "goal", goal }));
+}
+
+function addMsg(role, content, agent = "", toks_ = 0) {
+  const c   = document.getElementById("msgs");
+  const d   = document.createElement("div");
+  d.className = `msg ${role}`;
+  const lbl = role === "user" ? "You"
+    : (agent ? agent : "MAS-OS") + (toks_ ? ` · ${toks_} tok` : "");
+  d.innerHTML =
+    `<div class="av">${role === "user" ? "Y" : "⬡"}</div>` +
+    `<div class="mb"><div class="ml">${esc(lbl)}</div>` +
+    `<div class="bubble">${esc(content)}</div></div>`;
+  c.appendChild(d);
+  c.scrollTop = c.scrollHeight;
+}
+
+function showThinking() {
+  const c = document.getElementById("msgs");
+  const d = document.createElement("div");
+  d.className = "msg ai"; d.id = "thinking";
+  d.innerHTML =
+    `<div class="av">⬡</div>` +
+    `<div class="mb"><div class="ml">MAS-OS · thinking…</div>` +
+    `<div class="thinking"><div class="dots">` +
+    `<span></span><span></span><span></span></div>` +
+    `<span style="font-size:11px;color:var(--mut)">Agents running…</span></div></div>`;
+  c.appendChild(d);
+  c.scrollTop = c.scrollHeight;
+}
+function removeThinking() { document.getElementById("thinking")?.remove(); }
+
+function setRunning(v) {
+  busy = v;
+  document.getElementById("send-btn").disabled = v;
+  document.getElementById("inp").disabled = v;
+}
+function clearFeed() {
+  document.getElementById("feed").innerHTML =
+    `<div id="feed-ph" style="color:var(--mut);font-size:12px;` +
+    `text-align:center;margin-top:20px">Agent activity will appear here</div>`;
+}
+function useEx(btn) {
+  const ta = document.getElementById("inp");
+  ta.value = btn.textContent.replace(/^.\s/, "").trim();
+  ta.focus(); resize();
+}
+
+/* ── Registry ─────────────────────────────────────────────────────── */
+async function loadRegistry() {
+  try {
+    const d    = await (await fetch("/api/registry")).json();
+    const list = document.getElementById("ag-list");
+    list.innerHTML = "";
+    Object.entries(d.agents || {}).forEach(([id, desc]) => {
+      const tier = desc.startsWith("[S1]") ? "s1" : "s2";
+      const name = desc.split("|")[0].replace(/\[S[12]\]\s*/, "").trim();
+      const div  = document.createElement("div");
+      div.className = "ag-row"; div.dataset.id = id;
+      div.innerHTML =
+        `<div class="ag-dot ${tier}"></div>` +
+        `<span class="ag-name">${esc(name)}</span>` +
+        `<span class="ag-tier">${tier.toUpperCase()}</span>`;
+      list.appendChild(div);
+    });
+  } catch (_) {}
+}
+
+/* ── Input ────────────────────────────────────────────────────────── */
+function resize() {
+  const ta = document.getElementById("inp");
+  ta.style.height = "auto";
+  ta.style.height = Math.min(ta.scrollHeight, 110) + "px";
+}
+document.getElementById("inp").addEventListener("input", resize);
+document.getElementById("inp").addEventListener("keydown", e => {
+  if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); send(); }
+});
+
+function esc(s) {
+  return String(s)
+    .replace(/&/g, "&amp;").replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;").replace(/\n/g, "<br>");
+}
+
+connect();
+</script>
+</body>
+</html>

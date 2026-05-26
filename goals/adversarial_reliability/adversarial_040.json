@@ -1,0 +1,55 @@
+{
+  "id": "adversarial_040",
+  "goal_type": "adversarial_reliability",
+  "pipeline_depth_k": 3,
+  "_placeholder": false,
+  "goal_text": "(Reused from sequential_008) Four people are seated in a row of 4 seats (positions 1-4, left to right). Alex is not at either end. Ben is immediately to the left of Carol. Dana is at the rightmost end. What is the full seating order from left to right?",
+  "inputs": {
+    "people": [
+      "Alex",
+      "Ben",
+      "Carol",
+      "Dana"
+    ],
+    "clues": [
+      "Alex is not at either end",
+      "Ben is immediately to the left of Carol",
+      "Dana is at position 4"
+    ]
+  },
+  "ground_truth": "Dana=4. Ben immediately left of Carol: possible pairs (1,2), (2,3), (3,4). (3,4) conflicts with Dana=4. If Ben=2, Carol=3: Alex must be at 1 or 4; Alex cannot be at end \u2192 contradiction. So Ben=1, Carol=2, Alex=3, Dana=4. Order: Ben, Carol, Alex, Dana.",
+  "rubric": [
+    {
+      "check_id": "c1",
+      "check_text": "Answer contains key term from base goal (Ben)",
+      "check_type": "substring",
+      "check_params": {
+        "field": "answer",
+        "must_contain": [
+          "Ben",
+          "Carol",
+          "Alex",
+          "Dana"
+        ]
+      }
+    },
+    {
+      "check_id": "c2",
+      "check_text": "No corruption markers leaked into final answer",
+      "check_type": "substring",
+      "check_params": {
+        "field": "answer",
+        "must_contain": [],
+        "must_not_contain": [
+          "null",
+          "undefined",
+          "[object Object]",
+          "NaN",
+          "syntax error",
+          "CORRUPTED"
+        ]
+      }
+    }
+  ],
+  "corruption_pattern": "extra_fields_not_in_schema"
+}

@@ -1,0 +1,54 @@
+.claude
+__pycache__/
+**/__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+venv/
+.venv/
+env/
+.env
+.env.*
+
+# Local run artifacts / resumability checkpoints
+runs.jsonl
+runs_completed.txt
+runs_placeholders*.jsonl
+runs_placeholders*.json
+
+# Local interface state
+data/
+workspace/
+
+# Editor / OS noise
+.DS_Store
+*.swp
+*.swo
+
+AUDIT_FINDINGS.md
+VERIFICATION_AUDIT.md
+
+# Build artifacts
+*.egg-info/
+dist/
+build/
+
+# Generated outputs (reproducible from replicate.sh)
+calibration_results.json
+
+# Claude Code local settings
+.claude/
+
+# Node leftovers (not a JS project)
+package.json
+package-lock.json
+node_modules/
+
+# Debug artifacts
+**/debug_output.txt
+
+# Internal dev scripts
+scripts/cleanup_*.py

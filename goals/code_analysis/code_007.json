@@ -1,0 +1,55 @@
+{
+  "id": "code_007",
+  "goal_type": "code_analysis",
+  "pipeline_depth_k": 3,
+  "_placeholder": false,
+  "goal_text": "Find the bug in this Python function that is supposed to find the maximum value in an array. Identify the line number, bug category, and propose the exact fix.",
+  "inputs": {
+    "code": "def find_max(arr):\n    max_val = arr[0]\n    for i in range(1, len(arr)):\n        if arr[i] < max_val:\n            max_val = arr[i]\n    return max_val\n\nprint(find_max([3, 1, 4, 1, 5, 9, 2, 6]))",
+    "language": "python"
+  },
+  "ground_truth": "Bug at line 4: 'if arr[i] < max_val:' should be 'if arr[i] > max_val:'. The condition is inverted \u2014 it updates max_val when a smaller value is found, making the function return the minimum instead of the maximum. Category: logic error. Fix: change '<' to '>'.",
+  "rubric": [
+    {
+      "check_id": "c1",
+      "check_text": "Identifies line 4 as the bug",
+      "check_type": "substring",
+      "check_params": {
+        "field": "answer",
+        "must_contain": [
+          "line 4",
+          "arr[i] < max_val",
+          "< max_val"
+        ]
+      }
+    },
+    {
+      "check_id": "c2",
+      "check_text": "Categorizes as logic error",
+      "check_type": "substring",
+      "check_params": {
+        "field": "answer",
+        "must_contain": [
+          "logic error",
+          "logic_error",
+          "inverted",
+          "wrong condition"
+        ]
+      }
+    },
+    {
+      "check_id": "c3",
+      "check_text": "Proposes changing < to >",
+      "check_type": "substring",
+      "check_params": {
+        "field": "answer",
+        "must_contain": [
+          "arr[i] > max_val",
+          "> max_val",
+          "change < to >"
+        ]
+      }
+    }
+  ],
+  "corruption_pattern": null
+}
