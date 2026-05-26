@@ -30,6 +30,8 @@ workspace/
 
 AUDIT_FINDINGS.md
 VERIFICATION_AUDIT.md
+EXPERIMENTS.md
+REPRODUCE.md
 
 # Build artifacts
 *.egg-info/
