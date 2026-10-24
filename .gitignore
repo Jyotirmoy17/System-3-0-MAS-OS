@@ -12,45 +12,47 @@ venv/
 env/
 .env
 .env.*
-
-# Local run artifacts / resumability checkpoints
 runs.jsonl
 runs_completed.txt
 runs_placeholders*.jsonl
 runs_placeholders*.json
-
-# Local interface state
 data/
 workspace/
-
-# Editor / OS noise
 .DS_Store
 *.swp
 *.swo
-
 AUDIT_FINDINGS.md
 VERIFICATION_AUDIT.md
 EXPERIMENTS.md
 REPRODUCE.md
-
-# Build artifacts
 *.egg-info/
 dist/
 build/
-
-# Generated outputs (reproducible from replicate.sh)
 calibration_results.json
-
-# Claude Code local settings
 .claude/
-
-# Node leftovers (not a JS project)
 package.json
 package-lock.json
 node_modules/
-
-# Debug artifacts
 **/debug_output.txt
-
-# Internal dev scripts
 scripts/cleanup_*.py
+
+# Test / coverage output
+.coverage
+.coverage.*
+coverage.xml
+htmlcov/
+.tox/
+.nox/
+
+# Logs / notebooks
+*.log
+.ipynb_checkpoints/
+
+# IDE / OS noise
+.idea/
+.vscode/
+Thumbs.db
+*:Zone.Identifier
+
+# Thesis PDF (published at https://doi.org/10.5281/zenodo.22057717)
+Jyotirmoy_Singh_Thesis.pdf

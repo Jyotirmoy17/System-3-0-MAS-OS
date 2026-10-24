@@ -91,7 +91,7 @@ _RUNLOG_SCHEMA: dict[str, Any] = {
                 "P4": {"type": "integer", "minimum": 0},
             },
         },
-        # FIX 5 (P2): Full per_step item subschema enforcing EXPERIMENTS.md §4 fields.
+        # FIX 5 (P2): Full per_step item subschema enforcing the RunLog schema fields.
         "per_step": {
             "type": "array",
             "items": {
@@ -283,7 +283,7 @@ Supported check_types:
 
 
 def _validate_run_log(run_log: RunLog) -> None:
-    """Validate *run_log* against the EXPERIMENTS.md §4 JSON Schema."""
+    """Validate *run_log* against the RunLog JSON Schema defined in this module."""
     errors = list(_RUNLOG_VALIDATOR.iter_errors(run_log))
     if errors:
         msgs = "; ".join(e.message for e in errors[:3])

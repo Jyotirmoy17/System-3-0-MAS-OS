@@ -42,7 +42,7 @@ def _base_run(
     model_llm: str = "llama3.1:8b",
     per_step: Optional[list] = None,
 ) -> dict[str, Any]:
-    """Minimal valid run-log dict matching EXPERIMENTS.md §4 schema."""
+    """Minimal valid run-log dict matching the RunLog schema in mas/eval/harness.py."""
     run_id = str(uuid.uuid4())
     gid = goal_id or f"g_{run_id[:8]}"
     return {

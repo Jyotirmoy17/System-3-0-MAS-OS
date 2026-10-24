@@ -4,7 +4,8 @@
 # From a clean clone, runs the full experimental pipeline and produces all
 # artifacts (runs.jsonl, RESULTS.md, 5 figures).
 #
-# See REPRODUCE.md for step-by-step documentation and troubleshooting.
+# Run `bash replicate.sh --help` for stage options; see the thesis (Chapter 6,
+# https://doi.org/10.5281/zenodo.22057717) for the experimental protocol.
 #
 # Usage:
 #   bash replicate.sh [OPTIONS]

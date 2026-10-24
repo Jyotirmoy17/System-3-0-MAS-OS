@@ -310,7 +310,7 @@ app = FastAPI(
     title       = "System-3/0 Demo API",
     description = (
         "HTTP API exposing the System-3/0 multi-agent LLM orchestration "
-        "framework.  See EXPERIMENTS.md for the experimental protocol."
+        "framework.  See the thesis (https://doi.org/10.5281/zenodo.22057717), Chapter 6, for the experimental protocol."
     ),
     version     = _API_VERSION,
     docs_url    = "/docs",
@@ -406,7 +406,7 @@ async def get_run(run_id: str) -> RunStatusResponse:
     """
     Poll the status or final RunLog for a run.
 
-    Returns the full RunLog (EXPERIMENTS.md §4) once the run completes.
+    Returns the full RunLog (schema in mas/eval/harness.py) once the run completes.
     Returns 404 if the run_id is unknown or has been cleaned up.
     """
     with _runs_lock:

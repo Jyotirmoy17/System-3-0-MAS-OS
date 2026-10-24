@@ -38,7 +38,7 @@ _FIVE_PATTERN_NAMES: list[str] = [
 
 
 def _adv_pattern(idx: int) -> str:
-    """Corruption pattern for adversarial instance index *idx* (1-based, EXPERIMENTS §3)."""
+    """Corruption pattern for adversarial instance index *idx* (1-based, thesis §6.2)."""
     return _FIVE_PATTERN_NAMES[(idx - 1) % 5]
 
 
@@ -138,7 +138,7 @@ def _build_suite(
                 global_idx[goal_type] += 1
 
 
-# Canonical depth spec for the 150-instance CFR-stress suite (EXPERIMENTS.md §3)
+# Canonical depth spec for the 150-instance CFR-stress suite (thesis §6.2)
 _UNIFIED_SUITE_SPEC = {
     "sequential_reasoning":     [(3, 9), (4, 9), (5, 9)],
     "code_analysis":            [(3, 11), (4, 11), (5, 10)],

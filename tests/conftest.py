@@ -76,7 +76,7 @@ def _make_per_step(
 
 @pytest.fixture()
 def sample_run_log() -> Dict[str, Any]:
-    """A single run-log dict that matches EXPERIMENTS.md §4 schema exactly."""
+    """A single run-log dict that matches the RunLog schema in mas/eval/harness.py exactly."""
     return {
         "run_id":             str(uuid.uuid4()),
         "goal_id":            "research_synth_001",

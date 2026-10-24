@@ -53,7 +53,7 @@ class RunStatusResponse(BaseModel):
     )
     run_log:   Optional[dict[str, Any]] = Field(
         default=None,
-        description="Full RunLog (EXPERIMENTS.md §4) once the run completes.",
+        description="Full RunLog (schema in mas/eval/harness.py) once the run completes.",
     )
 
 

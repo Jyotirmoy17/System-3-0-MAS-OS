@@ -93,7 +93,7 @@ class VoCCalculator:
     Computes VoC(s_t) = E[ΔV(s_{t+1}) | s_t] − Cost(E_t).
 
     Positive VoC → worth another reasoning step.
-    Zero or negative → stop (optimal T* from Definition 3.5).
+    Zero or negative → stop (optimal T* from Definition 3.7, Eq. 3.13).
 
     Parameters:
         alpha         reward for a correct answer (quality weight)

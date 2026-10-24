@@ -33,7 +33,7 @@ def _build_parser() -> argparse.ArgumentParser:
         help        = "Run one goal under one experimental condition.",
         description = (
             "Execute a single goal instance under a specified experimental "
-            "condition and emit one RunLog entry (EXPERIMENTS.md §4)."
+            "condition and emit one RunLog entry (RunLog schema in mas/eval/harness.py)."
         ),
     )
     run_p.add_argument(
@@ -99,7 +99,7 @@ def _build_parser() -> argparse.ArgumentParser:
             "Inference backend for LLM/SLM tiers.  "
             "'ollama' uses local Ollama (default); "
             "'anthropic' uses Claude Sonnet via ANTHROPIC_API_KEY "
-            "(frontier replication, EXPERIMENTS.md §6)."
+            "(frontier replication; see thesis §8.2, Limitations)."
         ),
     )
 
@@ -112,7 +112,7 @@ def _build_parser() -> argparse.ArgumentParser:
     logs_sub.required = True
 
     for _lname, _lhelp in [
-        ("validate", "Validate every line against the EXPERIMENTS.md §4 schema."),
+        ("validate", "Validate every line against the RunLog schema in mas/eval/harness.py."),
         ("dedupe",   "Remove duplicate (goal_id, condition, seed) entries."),
         ("summary",  "Print aggregate statistics grouped by condition and goal type."),
     ]:
@@ -231,13 +231,13 @@ def _build_parser() -> argparse.ArgumentParser:
             "Inference backend for LLM/SLM tiers.  "
             "'ollama' uses local Ollama (default); "
             "'anthropic' uses Claude Sonnet via ANTHROPIC_API_KEY "
-            "(frontier replication, EXPERIMENTS.md §6)."
+            "(frontier replication; see thesis §8.2, Limitations)."
         ),
     )
 
     rob_p = sub.add_parser(
         "robustness",
-        help        = "Run pre-registered robustness checks (EXPERIMENTS.md §7.5).",
+        help        = "Run pre-registered robustness checks (temperature, seed, τ_sys1 sweeps).",
         description = (
             "Execute one or all of the four robustness checks: "
             "temperature sweep, seed sweep, drop-adversarial sensitivity, "

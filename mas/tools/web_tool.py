@@ -9,7 +9,7 @@ from typing import Any, Dict, List
 
 from .base import ToolResult, err, ok
 
-_UA = "MAS-OS/1.0 (+https://github.com/mas-os)"
+_UA = "MAS-OS/1.0 (+https://github.com/Jyotirmoy17/System-3-0-MAS-OS)"
 _DDG_API  = "https://api.duckduckgo.com/?q={q}&format=json&no_redirect=1&no_html=1"
 _DDG_LITE = "https://lite.duckduckgo.com/lite/?q={q}"
 

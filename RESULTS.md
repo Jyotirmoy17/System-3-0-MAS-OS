@@ -15,7 +15,7 @@ Repo SHA: `e2d1b8c7e958`
 
 ---
 
-### Primary Outcomes (pre-registered, EXPERIMENTS.md §7.1)
+### Primary Outcomes (pre-registered; thesis §6.4)
 
 Significance threshold α = 0.05
 

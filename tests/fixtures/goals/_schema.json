@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "Goal Instance",
-  "description": "Schema for one goal instance in the 150-instance CFR-stress suite (EXPERIMENTS.md §3).",
+  "description": "Schema for one goal instance in the 150-instance CFR-stress suite (thesis §6.2).",
   "type": "object",
   "required": [
     "id",

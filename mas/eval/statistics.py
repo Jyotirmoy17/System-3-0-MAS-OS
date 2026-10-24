@@ -13,7 +13,7 @@ from scipy.stats import wilcoxon as scipy_wilcoxon
 from mas.eval.cascade_detector import detect_cascade
 
 
-#: Significance threshold for the 2-condition protocol (§7.1).
+#: Significance threshold for the 2-condition protocol (thesis §6.4).
 ALPHA: float = 0.05
 
 #: Conditions retained in the simplified protocol.

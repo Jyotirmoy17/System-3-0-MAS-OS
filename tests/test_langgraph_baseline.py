@@ -221,11 +221,11 @@ def test_baseline_pydantic_failure_propagates(tmp_path: Path, monkeypatch):
 def test_baseline_runlog_schema_valid(tmp_path: Path, monkeypatch):
     """
     The RunLog dict produced by run_goal() must contain all fields
-    required by EXPERIMENTS.md §4.
+    required by the RunLog schema in mas/eval/harness.py.
     """
     monkeypatch.setenv("MAS_RUNS_LOG", str(tmp_path / "runs.jsonl"))
 
-    # Required top-level fields from EXPERIMENTS.md §4
+    # Required top-level fields from the RunLog schema in mas/eval/harness.py
     REQUIRED_FIELDS = {
         "run_id", "goal_id", "goal_type",
         "pipeline_depth_k", "condition", "routing_skipped", "seed",

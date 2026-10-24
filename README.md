@@ -1,6 +1,9 @@
 # MAS-OS — Agentic Operating System
 ### System-3/0 Blueprint · Jyotirmoy Singh · BITS Pilani Hyderabad
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.22057717.svg)](https://doi.org/10.5281/zenodo.22057717)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
 > **Headline result:** CFR: **0.0%** (System-3/0) vs **38.0%** (Baseline), p < 0.001, Cohen's h = −1.328  
 > n = 300 runs (150 goals × 2 conditions). See [RESULTS.md](RESULTS.md) for full statistics.
 
@@ -14,11 +17,11 @@ real tools (files, Python, web, memory), recovers from failures automatically,
 and returns a complete answer — without you touching anything in between.
 
 **Formal guarantees (from the thesis):**
-- Theorem 2 (depth-k composability): System-0 prevents cascading failures at any recursion depth
-- Theorem 3 (VoC optimal stopping): Pandora's Box ordering of agents is provably optimal
-- Theorem 5 (Reasoning-Resource Paradox): System-3 is mathematically necessary, not a convenience
+- Theorem 3.2 (depth-k composability): System-0 prevents cascading failures at any recursion depth
+- Theorem 3.5 (optimal agent routing): Pandora's Box ordering of agents by reservation value is provably optimal
+- Design Argument 3.2 (Reasoning-Resource Paradox): a separate meta-controller (System-3) is necessary, not a convenience
 
-> **Paper:** arXiv:XXXX.XXXXX
+> **Thesis (preprint):** [The System-3/0 Blueprint: A Formally Verified Orchestration Framework for Multi-Agent Systems](https://doi.org/10.5281/zenodo.22057717) — Zenodo, DOI [10.5281/zenodo.22057717](https://doi.org/10.5281/zenodo.22057717)
 
 ---
 
@@ -81,7 +84,7 @@ Your goal
 Result (or escalate back to System-3)
 ```
 
-See Figure 4.1 in the thesis PDF for the publication-quality version.
+See Figure 4.1 in the [thesis PDF](https://doi.org/10.5281/zenodo.22057717) for the publication-quality version.
 
 ---
 
@@ -92,7 +95,7 @@ bash replicate.sh           # full pipeline (~30 h, 24 GB Ryzen)
 bash replicate.sh --quick   # 50-run smoke check (~1 h)
 ```
 
-See [REPRODUCE.md](REPRODUCE.md) for stage-by-stage documentation, runtimes, and troubleshooting.
+Run `bash replicate.sh --help` for stage-by-stage options, and see the [thesis](https://doi.org/10.5281/zenodo.22057717) (Chapter 6) for the experimental protocol.
 
 ---
 
@@ -143,7 +146,7 @@ mypy mas/eval/
 
 ---
 
-## Evaluation Harness (Thesis §5)
+## Evaluation Harness (Thesis Chapter 6)
 
 ```bash
 # Single run
@@ -189,16 +192,22 @@ Endpoints: `GET /api/health`, `POST /api/run`, `GET /api/run/{id}`, `GET /api/ru
 
 ## Citation
 
+If you use this code or the System-3/0 framework in your research, please cite the thesis
+(GitHub's **"Cite this repository"** button uses [CITATION.cff](CITATION.cff)):
+
 ```bibtex
-@misc{singh2026system30,
-  title   = {The System-3/0 Blueprint: A Formally Verified
-             Orchestration Framework for Multi-Agent Systems},
-  author  = {Singh, Jyotirmoy},
-  year    = {2026},
-  note    = {arXiv:XXXX.XXXXX}
+@phdthesis{singh2026system30,
+  title     = {The System-3/0 Blueprint: A Formally Verified
+               Orchestration Framework for Multi-Agent Systems},
+  author    = {Singh, Jyotirmoy},
+  school    = {Birla Institute of Technology \& Science Pilani, Hyderabad Campus},
+  type      = {Undergraduate Thesis},
+  year      = {2026},
+  publisher = {Zenodo},
+  doi       = {10.5281/zenodo.22057717},
+  url       = {https://doi.org/10.5281/zenodo.22057717}
 }
 ```
-
 
 ---
 

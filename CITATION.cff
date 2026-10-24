@@ -1,0 +1,25 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite the thesis below."
+title: "MAS-OS: System-3/0 Blueprint reference implementation"
+authors:
+  - family-names: Singh
+    given-names: Jyotirmoy
+    affiliation: "Birla Institute of Technology and Science, Pilani"
+    orcid: "https://orcid.org/0009-0008-8360-3777"
+repository-code: "https://github.com/Jyotirmoy17/System-3-0-MAS-OS"
+license: MIT
+version: 0.1.0
+preferred-citation:
+  type: thesis
+  title: "The System-3/0 Blueprint: A Formally Verified Orchestration Framework for Multi-Agent Systems"
+  authors:
+    - family-names: Singh
+      given-names: Jyotirmoy
+      orcid: "https://orcid.org/0009-0008-8360-3777"
+  institution:
+    name: "Birla Institute of Technology & Science Pilani, Hyderabad Campus"
+  thesis-type: "Undergraduate Thesis"
+  year: 2026
+  date-published: "2026-05-26"
+  doi: "10.5281/zenodo.22057717"
+  url: "https://doi.org/10.5281/zenodo.22057717"

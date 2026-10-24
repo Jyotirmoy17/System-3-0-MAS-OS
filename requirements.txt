@@ -21,7 +21,7 @@ scipy==1.17.1
 matplotlib==3.10.9
 numpy==2.3.3
 
-# Anthropic SDK (frontier replication — EXPERIMENTS.md §6, DEV-008)
+# Anthropic SDK (frontier replication; see thesis §8.2, Limitations)
 anthropic==0.97.0
 
 # Terminal UI for demo command

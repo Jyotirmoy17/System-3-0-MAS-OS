@@ -233,7 +233,7 @@ def build_graph(
 
         # Counterfactual instrumentation: would_have_been_invalid is True iff the
         # RAW output (before System-0 repair) fails schema validation.  This is
-        # the correct semantics per EXPERIMENTS.md §4: "whether validation WOULD
+        # the intended semantics of the RunLog field: "whether validation WOULD
         # HAVE failed" = what happens to the unrepaired output without System-0.
         from .schemas import SCHEMAS as _SCHEMAS_AUDIT
         _audit_schema = _SCHEMAS_AUDIT.get("agent_response", {})

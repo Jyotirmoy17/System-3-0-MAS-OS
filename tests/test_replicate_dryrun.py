@@ -112,7 +112,7 @@ def test_replicate_quick_dryrun(tmp_path: Path) -> None:
     ``--quick --dry-run`` queues exactly 50 runs and exits 0.
 
     The batch dry-run prints ``DRY RUN — 50 run(s) queued`` when:
-    - 150 goal files exist (CFR-stress suite per EXPERIMENTS.md §3)
+    - 150 goal files exist (CFR-stress suite per thesis §6.2)
     - ``--quick`` sets ``--max-runs 50`` (first 50 queued runs, FULL_FRAMEWORK only)
     - ``--conditions`` defaults to FULL_FRAMEWORK (1 condition)
 

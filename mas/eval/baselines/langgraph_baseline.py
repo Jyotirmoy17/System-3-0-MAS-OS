@@ -284,7 +284,7 @@ def run_goal(
     started_at = time.time()
 
     # Determine which step to corrupt for adversarial goals.
-    # EXPERIMENTS.md §3: "deterministic step-2 corruption" (1-indexed → index 1).
+    # Deterministic step-2 corruption for adversarial goals (thesis §6.2); 1-indexed → index 1.
     # Only inject if adversarial_inject=True is explicitly requested.
     corruption_step = (1 if (adversarial_inject and goal.corruption_pattern) else -1)
 

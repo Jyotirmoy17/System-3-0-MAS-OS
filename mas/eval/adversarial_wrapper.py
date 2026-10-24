@@ -5,7 +5,7 @@ import json
 import random
 from typing import Any, Union
 
-# The five corruption patterns defined in EXPERIMENTS.md §3.
+# The five corruption patterns used for the Adversarial Reliability goals (thesis §6.2).
 _PATTERNS: frozenset[str] = frozenset({
     "drop_required_field",
     "type_flip",

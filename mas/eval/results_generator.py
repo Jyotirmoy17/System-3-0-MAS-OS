@@ -279,7 +279,7 @@ def _section_primary_outcomes(primary: dict) -> str:
     alpha = float(primary.get("alpha", 0.05))
 
     lines = [
-        "### Primary Outcomes (pre-registered, EXPERIMENTS.md §7.1)\n",
+        "### Primary Outcomes (pre-registered; thesis §6.4)\n",
         f"Significance threshold α = {alpha:.2f}\n",
     ]
 

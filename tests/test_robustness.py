@@ -29,7 +29,7 @@ def _make_run(
     goal_type: str = "research_synthesis",
 ) -> dict:
     """
-    Build a minimal valid run-log dict (EXPERIMENTS.md §4).
+    Build a minimal valid run-log dict (RunLog schema in mas/eval/harness.py).
 
     For detect_cascade() to return True the caller must also pass
     would_have_been_invalid=True and downstream_consumed=True on a step

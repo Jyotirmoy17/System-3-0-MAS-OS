@@ -37,7 +37,7 @@ def _make_run(
     tokens_total: int = 2000,
     model_llm: str = "llama3.1:8b",
 ) -> dict[str, Any]:
-    """Build a minimal valid run-log dict matching EXPERIMENTS.md §4."""
+    """Build a minimal valid run-log dict matching the RunLog schema in mas/eval/harness.py."""
     return {
         "run_id":             str(uuid.uuid4()),
         "goal_id":            goal_id,

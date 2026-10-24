@@ -57,7 +57,7 @@ _FIVE_PATTERNS    = [
     "extra_fields_not_in_schema",
 ]
 
-# Canonical 2-condition A/B suite (EXPERIMENTS.md §3, DEV-022):
+# Canonical 2-condition A/B suite (thesis §6.2–6.3, DEV-022):
 # exactly 150 goals — 91 adversarial, 32 code, 27 sequential (0 research / 0 financial).
 EXPECTED_TOTAL: int = 150
 EXPECTED_GOAL_TYPE_COUNTS: dict[str, int] = {

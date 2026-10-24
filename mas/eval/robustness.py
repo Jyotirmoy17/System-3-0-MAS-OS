@@ -1,4 +1,4 @@
-"""Pre-registered robustness checks (EXPERIMENTS.md §7.5)."""
+"""Pre-registered robustness checks (temperature, seed, and τ_sys1 sweeps)."""
 from __future__ import annotations
 
 import fcntl
@@ -65,7 +65,7 @@ def _compute_cfr(runs: list[RunLog]) -> tuple[float, int]:
     """Return (cfr, n) for *runs*.
 
 CFR is computed from detect_cascade() (re-evaluates the three-condition
-definition from EXPERIMENTS.md §5) rather than from the stored
+cascade definition; CFR as in thesis §6.1, Eq. 6.4) rather than from the stored
 ``cascade_failure`` field, so it is correct even for robustness log
 entries that may omit that field."""
     if not runs:
@@ -150,7 +150,7 @@ def temperature_sweep(
     rng_seed: int = 42,
     _run_one_fn: Callable[..., RunLog] | None = None,
 ) -> dict:
-    """Re-run 50 random instances at temperature ∈ {0.0, 0.7} (EXPERIMENTS.md §7.5).
+    """Re-run 50 random instances at temperature ∈ {0.0, 0.7}.
 
 Runs under FULL_FRAMEWORK for each temperature.  Results are written to
 separate files so the check is independently resumable:
@@ -221,7 +221,7 @@ def seed_sweep(
     rng_seed: int = 42,
     _run_one_fn: Callable[..., RunLog] | None = None,
 ) -> dict:
-    """Re-run 50 random instances at seed=0 and seed=1000 (EXPERIMENTS.md §7.5).
+    """Re-run 50 random instances at seed=0 and seed=1000.
 
 Writes to:
     {log_dir}/runs_robustness_seed_s{base_seed}.jsonl
@@ -338,7 +338,7 @@ def threshold_sensitivity(
     rng_seed: int = 42,
     _run_one_fn: Callable[..., RunLog] | None = None,
 ) -> dict:
-    """Re-run 50 random instances at τ_sys1 ∈ {0.5, 0.7, 0.9} (EXPERIMENTS.md §7.5).
+    """Re-run 50 random instances at τ_sys1 ∈ {0.5, 0.7, 0.9}.
 
 Each τ writes to its own JSONL file so the check is independently resumable:
     {log_dir}/runs_robustness_threshold_tau0.5.jsonl"""

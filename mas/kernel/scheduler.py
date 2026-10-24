@@ -140,7 +140,7 @@ class Scheduler:
         return best_agent
 
     def update_router(self, agent_id: str, goal: str, success: bool, confidence: float) -> None:
-        """Feedback loop for Theorem 4. Called after execution validates output."""
+        """LinUCB feedback loop (Theorem 3.6, sublinear regret). Called after execution validates output."""
         x_t = self._extract_features(goal)
         reward = 1.0 if success else (confidence - 1.0)
         self.router.update(agent_id, x_t, reward)
@@ -178,10 +178,10 @@ class Scheduler:
 
     def should_halt(self, escalation_count: int, current_confidence: float, goal: str) -> bool:
         """
-        Theorem 3: VoC Optimal Stopping via Pandora's Box.
+        VoC optimal stopping (Definition 3.7) with Pandora's Box routing (Theorem 3.5).
         Evaluates whether expanding the search graph provides positive expected net value.
         """
-        # Hard limits (Theorem 11.1 Budget Boundedness)
+        # Hard limits (budget boundedness)
         if self.budget_mgr.is_exhausted():
             log.warning("[S3] Halt: budget exhausted")
             return True

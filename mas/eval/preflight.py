@@ -256,7 +256,7 @@ def _check_distribution(
         )
         return
 
-    # Goal-type distribution (EXPERIMENTS.md §3 adversarial-heavy split)
+    # Goal-type distribution (thesis §6.2 adversarial-heavy split)
     for gt in _VALID_GOAL_TYPES:
         expected = EXPECTED_GOAL_TYPE_COUNTS[gt]
         count = goal_type_counts.get(gt, 0)

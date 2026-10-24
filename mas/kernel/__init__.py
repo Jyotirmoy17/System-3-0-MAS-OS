@@ -99,7 +99,7 @@ class MASKernel:
 
         Args:
             adversarial_inject: When True and corruption_pattern is set, applies
-                adversarial corruption at step 2.  See EXPERIMENTS.md §3 and Prompt 3.1.
+                adversarial corruption at step 2.  See thesis §6.2 (Adversarial Reliability goals).
             corruption_pattern: One of the 5 adversarial_wrapper patterns.
             corruption_seed:    Seed forwarded to adversarial_wrapper.corrupt().
 
